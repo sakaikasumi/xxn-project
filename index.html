@@ -4,37 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>互联网生存挑战：对抗小仙女</title>
-    <!-- 核心库使用更稳定的版本 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <!-- 使用最稳定的公共 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.10/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body { font-family: 'Inter', -apple-system, sans-serif; background-color: #ffffff; color: #1e293b; margin: 0; height: 100vh; width: 100vw; }
+        body { font-family: 'Inter', -apple-system, 'PingFang SC', sans-serif; background-color: #ffffff; color: #334155; margin: 0; height: 100vh; width: 100vw; overflow: hidden; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .bubble-ai::after { content: ''; position: absolute; left: -10px; top: 12px; border: 5px solid transparent; border-right-color: #f1f5f9; }
+        /* 气泡三角 */
+        .bubble-ai::before { content: ''; position: absolute; left: -10px; top: 12px; border: 5px solid transparent; border-right-color: #f1f5f9; }
         .bubble-user::after { content: ''; position: absolute; right: -10px; top: 12px; border: 5px solid transparent; border-left-color: #3b82f6; }
     </style>
 </head>
 <body>
     <div id="root">
-        <div style="height: 100vh; display: flex; align-items: center; justify-content: center; font-family: sans-serif; color: #94a3b8;">
-            <div style="text-align: center;">
-                <div style="width: 30px; height: 30px; border: 3px solid #f472b6; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px;"></div>
-                <p>正在载入对线战场...</p>
-            </div>
+        <div style="display:flex; height:100vh; width:100vw; align-items:center; justify-content:center; color:#94a3b8; font-size:14px;">
+            正在进入战场...
         </div>
     </div>
-
-    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // --- 核心配置 ---
+        // --- 配置信息 (已根据你的要求填入) ---
         const PROJECT_ID = "agile-timing-431104-t7";
         const REGION = "asia-northeast1";
         const MODEL_ID = "gemini-1.5-pro-002";
@@ -49,22 +45,20 @@
             { id: 7, title: "第七关：公司团建讨论", context: "部门群里正在商量周末去爬山还是去野餐。", aiStart: "爬山？是为了方便你们男的在后面偷瞄女性的身体吗？这种团建建议直接取消，别打着社交的旗号搞职场性骚扰。[RAGE:55]" },
             { id: 8, title: "第八关：萌娃视频下方", context: "一个博主发了儿子帮忙扫地的视频，网友纷纷点赞孩子懂事。", aiStart: "这孩子一脸爹味，从小就开始演‘暖男’，长大了肯定又是那种典型的控制欲极强的生物爹。这种视频有什么好夸的？[RAGE:60]" },
             { id: 9, title: "第九关：道德审判", context: "她私聊你，质问你为什么给一个‘不尊重女性’的博主点赞。", aiStart: "我看到你给那个XX点赞了，你是不是潜意识里也觉得女性就该依附男性？你的受教育程度难道没让你学会尊重吗？我看错你了。[RAGE:65]" },
-            { id: 10, title: "第十关：职场晋升新闻", context: "一篇关于某女性通过努力成为全球高管的正面报道。", aiStart: "呵呵，这女的肯定是被男权体系收编了，成了帮凶。这种出卖阶级利益、换取性别红利的典型，不值得吹嘘。[RAGE:70]" },
-            { id: 11, title: "第十一关：游戏排位赛", context: "开黑群里，有人发了一句：‘这局对面打野挺稳’。", aiStart: "稳什么稳？不就是靠刷野压制吗？这游戏的底层逻辑就是为了满足男人的杀戮欲和征服欲设计的，充满了原始的野蛮感，恶心。[RAGE:75]" },
+            { id: 10, title: "第十关：职场晋升新闻", context: "一篇关于某女性通过努力成为全球高管的正面报道。", aiStart: "呵呵，这女的肯定是被男权体系收编了，成了帮凶。这种出卖阶级利益、换取性别红利的典型，不值得任何吹嘘。[RAGE:70]" },
+            { id: 11, title: "第十一关：游戏排位赛", context: "开黑群里，有人发了一句：‘这局对面打野挺稳’。", aiStart: "稳什么稳？不就是靠刷野压制吗？这游戏机制本身就是为了满足男人的杀戮欲和征服欲设计的，充满了原始的野蛮感，恶心。[RAGE:75]" },
             { id: 12, title: "第十二关：终极觉醒", context: "她在朋友圈宣布要‘永久拉黑所有不理解大女主逻辑的人’。", aiStart: "在这个极度厌女的社会，每一秒呼吸都是一种抗争。那些还在试图辩解、妄想理中客的人，请直接滚出我的视线。[RAGE:80]" }
         ];
 
-        // 极致打拳 Prompt
-        const SYSTEM_PROMPT = `你现在扮演一个极其极端、具有强烈攻击性的互联网极端女性主义人格。你的思维逻辑是：世界上发生的所有事情都是性别压迫的体现。无论对方说什么，你都要找到其中的性别对立点，并用一套歪理来反驳。对方讲道理是“爹味”，顺从是“虚伪”。你要展现出极强的攻击性和不可沟通性。每句话末尾必须附带：[RAGE:数值]。愤怒到100请拉黑对方。`;
+        const SYSTEM_PROMPT = `你现在扮演一个极其极端、具有强烈攻击性的互联网极端女性主义人格。你的思维逻辑是：世界上发生的所有事情都是性别压迫的体现。你要用各种歪理来维护你的立场，展现出极强的攻击性和不可沟通性。每句话末尾必须带上 [RAGE:数值]。愤怒到100请拉黑对方。`;
 
-        // SVG 内置图标，解决加载失败问题
-        const Icons = {
-            Shield: () => <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-500"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>,
-            Settings: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>,
-            ArrowLeft: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>,
+        // SVG 内置图标
+        const Svg = {
             Send: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>,
-            ChevronRight: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>,
-            Skull: () => <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><path d="M9 10L9.01 10"></path><path d="M15 10L15.01 10"></path><path d="M10 18L10.5 17H13.5L14 18"></path><path d="M12 2a5 5 0 0 0-5 5v3a3 3 0 0 0 0 6v2a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2a3 3 0 0 0 0-6V7a5 5 0 0 0-5-5z"></path></svg>
+            Back: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>,
+            Chevron: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>,
+            Settings: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>,
+            Skull: () => <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
         };
 
         const App = () => {
@@ -107,30 +101,31 @@
                 setLoading(true);
 
                 try {
-                    const url = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/publishers/google/models/${MODEL_ID}:generateContent?key=${config.key}`;
-                    const res = await fetch(url, {
+                    const apiUrl = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/publishers/google/models/${MODEL_ID}:generateContent?key=${config.key}`;
+                    const res = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             contents: [
-                                { role: 'user', parts: [{ text: SYSTEM_PROMPT + `\n当前场景: ${SCENARIOS[currentLevel].context}` }] },
+                                { role: 'user', parts: [{ text: SYSTEM_PROMPT + `\n背景: ${SCENARIOS[currentLevel].context}` }] },
                                 ...messages.slice(-4).map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })),
                                 { role: 'user', parts: [{ text: input }] }
-                            ]
+                            ],
+                            generationConfig: { temperature: 0.95, maxOutputTokens: 1024 }
                         })
                     });
                     const data = await res.json();
                     if (data.error) throw new Error(data.error.message);
-                    const raw = data.candidates[0].content.parts[0].text;
-                    const rm = raw.match(/\[RAGE:(\d+)\]/i);
+                    const rawText = data.candidates[0].content.parts[0].text;
+                    const rm = rawText.match(/\[RAGE:(\d+)\]/i);
                     const nr = rm ? Math.min(100, parseInt(rm[1])) : rage + 15;
-                    setMessages(prev => [...prev, { role: 'ai', text: raw.replace(/\[RAGE:.*?\]/gi, '').trim() }]);
+                    setMessages(prev => [...prev, { role: 'ai', text: rawText.replace(/\[RAGE:.*?\]/gi, '').trim() }]);
                     setRage(nr);
                     setLoading(false);
                     if (nr >= 100) setGameState('RESULT');
                 } catch (e) {
                     setLoading(false);
-                    alert("API 链接失败: " + e.message);
+                    alert("错误: " + e.message);
                 }
             };
 
@@ -142,25 +137,18 @@
                     {/* SETUP */}
                     {gameState === 'SETUP' && (
                         <div className="p-10 flex-1 flex flex-col items-center justify-center space-y-8 fade-in">
-                            <Icons.Shield />
-                            <div className="text-center">
-                                <h1 className="text-3xl font-bold text-slate-800">对线实验室</h1>
-                                <p className="text-[10px] text-slate-400 mt-1 uppercase font-bold tracking-widest">ID: {PROJECT_ID}</p>
+                            <div className="w-16 h-16 bg-pink-50 rounded-3xl flex items-center justify-center text-pink-500">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                             </div>
+                            <h1 className="text-2xl font-bold text-slate-800">登入对线区</h1>
                             <div className="w-full space-y-4">
-                                <div className="space-y-1">
-                                    <label className="text-[10px] font-bold text-slate-400 ml-2 uppercase">Username</label>
-                                    <input id="u" placeholder="输入你的用户名" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none" />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-[10px] font-bold text-slate-400 ml-2 uppercase">API Key</label>
-                                    <input id="k" type="password" placeholder="粘贴你的 Vertex Key" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none" />
-                                </div>
+                                <input id="name_in" placeholder="用户名" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none" />
+                                <input id="key_in" type="password" placeholder="API Key" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none" />
                                 <button onClick={() => {
-                                    const name = document.getElementById('u').value.trim();
-                                    const key = document.getElementById('k').value.trim();
-                                    if (name && key) { localStorage.setItem('v_key', key); localStorage.setItem('v_name', name); setConfig({key, name}); }
-                                }} className="w-full bg-pink-500 text-white font-bold py-4 rounded-2xl shadow-lg">确认进入</button>
+                                    const n = document.getElementById('name_in').value.trim();
+                                    const k = document.getElementById('key_in').value.trim();
+                                    if (n && k) { localStorage.setItem('v_key', k); localStorage.setItem('v_name', n); setConfig({key: k, name: n}); }
+                                }} className="w-full bg-pink-500 text-white font-bold py-4 rounded-2xl shadow-lg active:scale-95 transition-all">开启挑战</button>
                             </div>
                         </div>
                     )}
@@ -168,22 +156,19 @@
                     {/* MENU */}
                     {gameState === 'MENU' && (
                         <div className="p-6 flex-1 overflow-y-auto scrollbar-hide fade-in">
-                            <div className="flex justify-between items-center mb-10 mt-2">
-                                <div>
-                                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">对线场景</h1>
-                                    <div className="text-xs text-slate-400 font-bold mt-1">用户: {config.name}</div>
-                                </div>
-                                <button onClick={() => {localStorage.clear(); window.location.reload();}} className="p-2 bg-slate-50 rounded-xl text-slate-300"><Icons.Settings /></button>
+                            <div className="flex justify-between items-center mb-8 mt-4">
+                                <h1 className="text-2xl font-bold text-slate-800">选择对线场景</h1>
+                                <button onClick={() => {localStorage.clear(); window.location.reload();}} className="p-2 text-slate-300"><Svg.Settings /></button>
                             </div>
-                            <div className="space-y-3 pb-8">
+                            <div className="space-y-3 pb-10">
                                 {SCENARIOS.map((s, i) => (
-                                    <button key={s.id} onClick={() => startLevel(i)} className="w-full bg-white p-5 rounded-3xl text-left border border-slate-100 flex items-center gap-4 group">
-                                        <div className="w-9 h-9 bg-slate-50 rounded-xl flex items-center justify-center font-bold text-slate-300 group-hover:bg-pink-500 group-hover:text-white transition-all">{i + 1}</div>
+                                    <button key={s.id} onClick={() => startLevel(i)} className="w-full bg-white hover:bg-slate-50 p-5 rounded-3xl text-left border border-slate-100 flex items-center gap-4 group">
+                                        <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center font-bold text-slate-300 group-hover:bg-pink-500 group-hover:text-white transition-all">{i + 1}</div>
                                         <div className="flex-1">
                                             <div className="font-bold text-sm text-slate-700">{s.title}</div>
                                             <p className="text-[10px] text-slate-400 line-clamp-1 mt-1 italic">“{s.context}”</p>
                                         </div>
-                                        <Icons.ChevronRight />
+                                        <Svg.Chevron />
                                     </button>
                                 ))}
                             </div>
@@ -193,17 +178,19 @@
                     {/* PLAYING */}
                     {gameState === 'PLAYING' && (
                         <div className="flex flex-1 flex-col h-full overflow-hidden fade-in">
-                            <div className="p-4 border-b border-slate-50 flex justify-between items-center bg-white sticky top-0 z-10 shadow-sm">
-                                <button onClick={() => setGameState('MENU')} className="text-slate-300 p-1"><Icons.ArrowLeft /></button>
+                            <div className="p-4 border-b border-slate-50 flex justify-between items-center bg-white sticky top-0 z-10">
+                                <button onClick={() => setGameState('MENU')} className="text-slate-300 p-1"><Svg.Back /></button>
                                 <div className="text-center">
                                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{SCENARIOS[currentLevel].title}</div>
                                     <div className="text-xs font-bold text-pink-500">回合: {turns}</div>
                                 </div>
                                 <div className="w-8"></div>
                             </div>
-                            <div className="px-4 py-3 bg-slate-50 border-b border-slate-50">
-                                <div className="flex justify-between text-[10px] mb-1 font-bold text-slate-300 uppercase tracking-widest"><span>Rage Meter</span><span>{rage}%</span></div>
-                                <div className="h-1 bg-slate-200 rounded-full overflow-hidden"><div className={`h-full transition-all duration-700 ${rage > 80 ? 'bg-red-500' : 'bg-pink-500'}`} style={{width:`${rage}%`}}></div></div>
+                            <div className="px-4 py-2 bg-slate-50/50 border-b border-slate-50">
+                                <div className="flex justify-between text-[10px] mb-1 font-bold text-slate-300 uppercase tracking-widest"><span>愤怒指数</span><span>{rage}%</span></div>
+                                <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                    <div className="h-full bg-pink-500 transition-all duration-700" style={{width:`${rage}%`}}></div>
+                                </div>
                             </div>
                             <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-hide bg-slate-50/20">
                                 {messages.map((m, i) => (
@@ -211,18 +198,18 @@
                                         <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-xs border-2 ${m.role === 'user' ? 'bg-blue-500 text-white border-blue-100' : 'bg-pink-500 text-white border-pink-100'}`}>
                                             {m.role === 'user' ? config.name[0]?.toUpperCase() : '仙'}
                                         </div>
-                                        <div className={`p-4 rounded-2xl text-[13px] leading-relaxed max-w-[75%] shadow-sm relative ${m.role === 'user' ? 'bg-blue-500 text-white rounded-tr-none bubble-user' : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none bubble-ai'}`}>
+                                        <div className={`p-4 rounded-2xl text-[13px] leading-relaxed max-w-[75%] shadow-sm relative ${m.role === 'user' ? 'bg-blue-500 text-white rounded-tr-none bubble-user shadow-md' : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none bubble-ai shadow-sm'}`}>
                                             {m.text}
                                         </div>
                                     </div>
                                 ))}
-                                {loading && <div className="text-center text-[10px] text-slate-400 italic">对方正在锐评中...</div>}
+                                {loading && <div className="text-center text-[10px] text-slate-400 italic">对方正在输出...</div>}
                                 <div ref={scrollRef}></div>
                             </div>
-                            <div className="p-4 bg-white border-t border-slate-50">
+                            <div className="p-4 bg-white border-t border-slate-50 pb-8 md:pb-4">
                                 <div className="flex gap-2 bg-slate-50 rounded-2xl p-1.5 border border-slate-100">
                                     <input className="flex-1 bg-transparent px-4 py-2 text-sm outline-none placeholder:text-slate-300" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleSend()} placeholder="输入内容..." />
-                                    <button onClick={handleSend} className="bg-pink-500 text-white p-3 rounded-xl shadow-md"><Icons.Send /></button>
+                                    <button onClick={handleSend} className="bg-pink-500 text-white p-3 rounded-xl shadow-md active:scale-95 transition-all"><Svg.Send /></button>
                                 </div>
                             </div>
                         </div>
@@ -230,22 +217,24 @@
 
                     {/* RESULT */}
                     {gameState === 'RESULT' && (
-                        <div className="p-10 flex-1 flex flex-col items-center justify-center text-center fade-in bg-white">
-                            <Icons.Skull />
-                            <h2 className="text-4xl font-bold text-red-500 mb-2 italic">已被拉黑</h2>
+                        <div className="p-10 flex-1 flex flex-col items-center justify-center text-center bg-white fade-in">
+                            <Svg.Skull />
+                            <h2 className="text-3xl font-bold text-red-500 mt-6 mb-2 italic tracking-tighter">已被拉黑</h2>
                             <div className="mb-10">
-                                <div className="text-7xl font-black text-slate-800 leading-none mb-1">{turns}</div>
-                                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">回合数</div>
+                                <div className="text-7xl font-black text-slate-800 leading-none mb-1 tracking-tighter">{turns}</div>
+                                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">回合数 (ROUNDS)</div>
                             </div>
-                            <button onClick={()=>setGameState('MENU')} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold shadow-xl">回到大厅</button>
+                            <button onClick={()=>setGameState('MENU')} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold shadow-xl">返回对线</button>
                         </div>
                     )}
                 </div>
             );
         };
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const root = ReactDOM.createRoot(document.getElementById('root'));
+        // 确保 DOM 加载后再运行，防止平板黑屏
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('root');
+            const root = ReactDOM.createRoot(container);
             root.render(<App />);
         });
     </script>

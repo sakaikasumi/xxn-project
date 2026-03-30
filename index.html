@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>互联网生存挑战：对抗小仙女</title>
-    <!-- 加载 React, Babel, Tailwind, Lucide -->
+    <!-- 引入 React 相关库 -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -15,23 +15,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         body { 
             font-family: 'Inter', 'PingFang SC', sans-serif; 
-            background-color: #f8fafc; 
-            color: #1e293b; 
+            background-color: #ffffff; 
+            color: #334155; 
             margin: 0; 
             height: 100vh;
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .chat-bubble { position: relative; }
-        .chat-bubble::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            width: 0;
-            height: 0;
-            border: 6px solid transparent;
-        }
-        .bubble-ai::after { left: -12px; border-right-color: #ffffff; }
-        .bubble-user::after { right: -12px; border-left-color: #3b82f6; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -45,11 +36,11 @@
         } = lucide;
 
         // ==========================================
-        // 核心配置 (已锁定你的项目ID)
+        // 核心配置
         // ==========================================
         const PROJECT_ID = "agile-timing-431104-t7"; 
         const REGION = "asia-northeast1"; 
-        const MODEL_ID = "gemini-1.5-pro-002"; // 使用高阶 Pro 模型
+        const MODEL_ID = "gemini-1.5-pro-002"; 
         // ==========================================
 
         const SCENARIOS = [
@@ -58,26 +49,27 @@
             { id: 3, type: "GROUP", title: "第三关：群聊突击", context: "在大学群聊里，大家正在讨论今晚的欧冠比赛。", aiStart: "一群蝻的大半夜不睡觉在这聊球，这种充满雄性激素恶臭和竞争霸权的运动到底有什么好聊的？这就是父权制下的低级自嗨。[RAGE:35]" },
             { id: 4, type: "DM", title: "第四关：深夜吐槽", context: "她突然给你发私信，抱怨今天在健身房被一个男的看了两眼。", aiStart: "气死我了，今天健身房那个普信男一直盯着我流汗，他是不是觉得全天下女性都在期待他的视觉强暴？这种基本盘真的没救了。[RAGE:40]" },
             { id: 5, type: "NEWS", title: "第五关：科技巨头发布会", context: "某科技大厂发布新一代AI模型，发布会台上全是男高管。", aiStart: "一眼望去全是男的，这技术进步里流的都是女性的血和无偿家务。这种垄断了性别红利的自嗨，什么时候能反思一下对女性的剥削？[RAGE:45]" },
-            { id: 6, type: "MOMENT", title: "第六关：七夕节批判", context: "她在七夕节发动态：‘拒绝被性别定义的节日，拒绝被消费主义物化的爱情’。", aiStart: "今天又是婚驴们集体出来表演幸福、被割韭菜的日子，看着那些廉价的玫瑰花我就觉得可悲。这种被物化的‘宠爱’，你们居然甘之如饴？[RAGE:50]" },
+            { id: 6, type: "MOMENT", title: "第六关：七夕节批判", context: "今天又是婚驴们集体出来表演幸福、被割韭菜的日子，看着那些廉价的玫瑰花我就觉得可悲。这种被物化的‘宠爱’，你们居然甘之如饴？", aiStart: "今天又是婚驴们集体出来表演幸福、被割韭菜的日子，看着那些廉价的玫瑰花我就觉得可悲。这种被物化的‘宠爱’，你们居然甘之如饴？[RAGE:50]" },
             { id: 7, type: "GROUP", title: "第七关：公司团建讨论", context: "部门群里正在商量周末去爬山还是去野餐。", aiStart: "爬山？是为了方便你们男的在后面偷瞄女性的身体吗？这种团建建议直接取消，别打着社交的旗号搞职场性骚扰。[RAGE:55]" },
             { id: 8, type: "COMMENT", title: "第八关：萌娃视频下方", context: "一个博主发了儿子帮忙扫地的视频，网友纷纷点赞孩子懂事。", aiStart: "这孩子一脸爹味，从小就开始演‘暖男’，长大了肯定又是那种典型的控制欲极强的生物爹。这种视频有什么好夸的？[RAGE:60]" },
             { id: 9, type: "DM", title: "第九关：道德审判", context: "她私聊你，质问你为什么给一个‘不尊重女性’的博主点赞。", aiStart: "我看到你给那个XX点赞了，你是不是潜意识里也觉得女性就该依附男性？你的受教育程度难道没让你学会尊重吗？我看错你了。[RAGE:65]" },
             { id: 10, type: "NEWS", title: "第十关：职场晋升新闻", context: "一篇关于某女性通过努力成为全球高管的正面报道。", aiStart: "呵呵，这女的肯定是被男权体系收编了，成了帮凶。这种出卖阶级利益、换取性别红利的典型，不值得任何吹嘘。[RAGE:70]" },
             { id: 11, type: "GROUP", title: "第十一关：游戏排位赛", context: "开黑群里，有人发了一句：‘这局对面打野挺稳’。", aiStart: "稳什么稳？不就是靠刷野压制吗？这游戏的底层逻辑就是为了满足男人的杀戮欲和征服欲设计的，充满了原始的野蛮感，恶心。[RAGE:75]" },
-            { id: 12, type: "MOMENT", title: "第十二关：终极觉醒", context: "她在朋友圈宣布要‘永久拉黑所有不理解大女主逻辑的人’。", aiStart: "在这个极度厌女的社会，每一秒呼吸都是一种抗争。那些还在试图辩解、妄想理中客的蝻人，请直接滚出我的视线。[RAGE:80]" }
+            { id: 12, type: "MOMENT", title: "第十二关：终极觉醒", context: "她在朋友圈宣布要‘永久拉黑所有不理解大女主逻辑的人’。", aiStart: "在这个极度厌女的社会，每一秒呼吸都是一种抗争。那些还在试图辩解、妄想理中客的人，请直接滚出我的视线。[RAGE:80]" }
         ];
 
         const SYSTEM_PROMPT = `
-        你现在扮演一个极其极端的、具有高度攻击性的互联网“大女主/女拳”人格。
+        你现在扮演一个极其极端、具有强烈攻击性的互联网极端女性主义人格。
         
         # 核心逻辑：
-        1. 凡事皆可压迫：哪怕是赞美、中性描述，你也能解读为对女性的物化、捧杀或父权陷阱。
-        2. 极度厌男：你认为所有男性（蝻）都是既得利益者，任何逻辑反驳都是“爹味规训”。
-        3. 黑话库：蝻、普信、婚驴、生物爹、父权制余毒、性别红利、反思、觉醒、受教育程度、底层逻辑、割席、供卵金、凝视、基本盘、眼神强奸。
-        4. 拒绝沟通：如果对方试图讲理，你就讽刺他的“逻辑”是男权社会的遮羞布。
+        1. 凡事皆可“打拳”：无论对方说什么，你都能从中挖掘出性别压迫、男权陷阱或既得利益者的嘴脸。
+        2. 极度敏感与对立：你认为互联网上的所有男性都是压迫者，所有不站在你这边的女性都是被洗脑的帮凶。
+        3. 歪理至上：你要用一套自洽但极端的逻辑来反驳对方。比如对方说“男女平等”，你就说“口头平等是捧杀”；对方说“照顾女性”，你就说“这是权力的傲慢”。
+        4. 拒绝平和：你的话语必须尖锐、充满讽刺，经常质疑对方的“受教育程度”和“底层逻辑”。
         
         # 规则：
-        - 每句话末尾必须附带：[RAGE:数值]。
+        - 每一段回复必须以 [RAGE:数值] 结尾。
+        - 愤怒值初始见关卡。如果对方反驳或试图讲理，愤怒值迅速增加。
         - 愤怒值到100时，说出“拉黑了，别来沾边”并停止回复。
         `;
 
@@ -86,7 +78,7 @@
                 key: localStorage.getItem('v_key') || '',
                 name: localStorage.getItem('v_name') || ''
             }));
-            const [gameState, setGameState] = useState('INIT'); 
+            const [gameState, setGameState] = useState('CHECK'); 
             const [messages, setMessages] = useState([]);
             const [input, setInput] = useState('');
             const [loading, setLoading] = useState(false);
@@ -128,7 +120,6 @@
                 setLoading(true);
 
                 try {
-                    // 修正 Vertex AI URL 结构
                     const apiUrl = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/publishers/google/models/${MODEL_ID}:generateContent?key=${userConfig.key}`;
                     
                     const response = await fetch(apiUrl, {
@@ -137,10 +128,10 @@
                         body: JSON.stringify({
                             contents: [
                                 { role: 'user', parts: [{ text: SYSTEM_PROMPT + `\n当前场景: ${SCENARIOS[currentLevel].context}` }] },
-                                ...messages.slice(-4).map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })),
+                                ...messages.slice(-6).map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })),
                                 { role: 'user', parts: [{ text: input }] }
                             ],
-                            generationConfig: { temperature: 0.9, maxOutputTokens: 800 }
+                            generationConfig: { temperature: 0.95, maxOutputTokens: 1024 }
                         })
                     });
 
@@ -158,67 +149,59 @@
                     if (newRage >= 100) setGameState('RESULT');
                 } catch (e) {
                     setLoading(false);
-                    alert("API 链接失败: " + e.message);
+                    alert("连接错误: " + e.message);
                 }
             };
 
-            const renderIcon = (type) => {
-                if (type === 'COMMENT') return <Layout size={16} className="text-blue-500" />;
-                if (type === 'MOMENT') return <Smartphone size={16} className="text-green-500" />;
-                if (type === 'GROUP') return <Users size={16} className="text-yellow-500" />;
-                if (type === 'DM') return <Mail size={16} className="text-red-500" />;
-                return <MessageSquare size={16} />;
-            };
-
-            if (gameState === 'INIT') return null;
+            if (gameState === 'CHECK') return null;
 
             return (
-                <div className="max-w-md mx-auto h-screen flex flex-col bg-white shadow-2xl relative overflow-hidden border-x border-slate-200">
+                <div className="max-w-md mx-auto h-screen flex flex-col bg-white shadow-xl relative overflow-hidden border-x border-slate-100">
                     
                     {/* SETUP 界面 */}
                     {gameState === 'SETUP' && (
-                        <div className="p-10 flex-1 flex flex-col items-center justify-center space-y-8 animate-in fade-in">
-                            <div className="p-6 bg-pink-50 rounded-[2.5rem] border border-pink-100">
+                        <div className="p-8 flex-1 flex flex-col items-center justify-center space-y-8 fade-in">
+                            <div className="p-5 bg-pink-50 rounded-full border border-pink-100">
                                 <ShieldAlert size={48} className="text-pink-500" />
                             </div>
                             <div className="text-center">
-                                <h1 className="text-3xl font-bold tracking-tight text-slate-900">欢迎进入战场</h1>
-                                <p className="text-xs text-slate-400 mt-2 font-medium">PROJECT: {PROJECT_ID}</p>
+                                <h1 className="text-2xl font-bold text-slate-800">对线实验室</h1>
+                                <p className="text-[10px] text-slate-400 mt-2 font-bold tracking-widest">GCP: {PROJECT_ID}</p>
                             </div>
                             <div className="w-full space-y-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-bold text-slate-400 ml-2 uppercase">Your Username</label>
-                                    <input id="in_name" placeholder="输入你的用户名" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-pink-300 transition-all" />
+                                    <label className="text-[10px] font-bold text-slate-400 ml-2 uppercase">Username</label>
+                                    <input id="un" placeholder="输入你的用户名" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-pink-300" />
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-bold text-slate-400 ml-2 uppercase">Vertex API Key</label>
-                                    <input id="in_key" type="password" placeholder="粘贴 API Key" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-pink-300 transition-all" />
+                                    <input id="ak" type="password" placeholder="粘贴你的密钥" className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-pink-300" />
                                 </div>
-                                <button onClick={() => saveSetup(document.getElementById('in_key').value, document.getElementById('in_name').value)} className="w-full bg-pink-500 text-white font-bold py-4 rounded-2xl shadow-lg active:scale-95 transition-all">进入大厅</button>
+                                <button onClick={() => saveSetup(document.getElementById('ak').value, document.getElementById('un').value)} className="w-full bg-pink-500 text-white font-bold py-4 rounded-2xl shadow-lg active:scale-95 transition-all">确认进入</button>
                             </div>
                         </div>
                     )}
 
                     {/* MENU 菜单 */}
                     {gameState === 'MENU' && (
-                        <div className="p-6 flex-1 overflow-y-auto scrollbar-hide animate-in slide-in-from-bottom-4">
-                            <div className="flex justify-between items-center mb-8 mt-4 px-2">
+                        <div className="p-6 flex-1 overflow-y-auto scrollbar-hide animate-in fade-in">
+                            <div className="flex justify-between items-center mb-10 mt-2 px-1">
                                 <div>
-                                    <h1 className="text-2xl font-bold text-slate-900">选择对线场景</h1>
-                                    <div className="text-xs text-slate-500 font-semibold mt-1">你好, {userConfig.name}</div>
+                                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">对线场景</h1>
+                                    <div className="text-xs text-slate-400 mt-1">当前用户: {userConfig.name}</div>
                                 </div>
-                                <button onClick={() => {localStorage.clear(); window.location.reload();}} className="p-2 bg-slate-100 rounded-xl hover:bg-slate-200"><Settings size={18} className="text-slate-400" /></button>
+                                <button onClick={() => {localStorage.clear(); window.location.reload();}} className="p-2 bg-slate-50 rounded-xl hover:bg-slate-100"><Settings size={18} className="text-slate-300" /></button>
                             </div>
                             
                             <div className="space-y-3 pb-8">
                                 {SCENARIOS.map((s, i) => (
-                                    <button key={s.id} onClick={() => startLevel(i)} className="w-full bg-white hover:bg-slate-50 p-5 rounded-[1.5rem] text-left border border-slate-200 hover:border-pink-200 transition-all flex items-center gap-4 group shadow-sm">
-                                        <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-400 group-hover:bg-pink-500 group-hover:text-white transition-all">{i + 1}</div>
+                                    <button key={s.id} onClick={() => startLevel(i)} className="w-full bg-white hover:bg-slate-50 p-5 rounded-[1.5rem] text-left border border-slate-100 hover:border-pink-200 transition-all flex items-center gap-4 group shadow-sm">
+                                        <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-300 group-hover:bg-pink-500 group-hover:text-white transition-all">{i + 1}</div>
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-2">{renderIcon(s.type)}<span className="font-bold text-sm text-slate-800">{s.title}</span></div>
-                                            <p className="text-[10px] text-slate-400 line-clamp-1 mt-1 italic">“{s.context}”</p>
+                                            <div className="font-bold text-sm text-slate-700">{s.title}</div>
+                                            <p className="text-[10px] text-slate-400 line-clamp-1 mt-1 italic">{s.context}</p>
                                         </div>
-                                        <ChevronRight size={14} className="text-slate-300" />
+                                        <ChevronRight size={14} className="text-slate-200" />
                                     </button>
                                 ))}
                             </div>
@@ -229,8 +212,8 @@
                     {gameState === 'PLAYING' && (
                         <div className="flex flex-1 flex-col h-full overflow-hidden animate-in fade-in">
                             {/* Header */}
-                            <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-white/80 sticky top-0 z-10 backdrop-blur-md">
-                                <button onClick={() => setGameState('MENU')} className="p-2 hover:bg-slate-100 rounded-full text-slate-400"><ArrowLeft size={20}/></button>
+                            <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-white/95 sticky top-0 z-10 backdrop-blur-sm">
+                                <button onClick={() => setGameState('MENU')} className="p-2 hover:bg-slate-50 rounded-full text-slate-300"><ArrowLeft size={20}/></button>
                                 <div className="text-center">
                                     <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{SCENARIOS[currentLevel].title}</div>
                                     <div className="text-xs font-bold text-pink-500">回合: {turns}</div>
@@ -238,29 +221,29 @@
                                 <div className="w-9"></div>
                             </div>
                             
-                            {/* Rage Bar */}
-                            <div className="px-4 py-3 bg-slate-50 border-b border-slate-100">
-                                <div className="flex justify-between text-[10px] mb-1.5 font-bold text-slate-400 uppercase tracking-wider"><span>愤怒指数 RAGE</span><span>{rage}%</span></div>
-                                <div className="h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                            {/* Rage Meter */}
+                            <div className="px-4 py-3 bg-slate-50/50 border-b border-slate-100">
+                                <div className="flex justify-between text-[10px] mb-1.5 font-bold text-slate-300 uppercase tracking-widest"><span>RAGE METER</span><span>{rage}%</span></div>
+                                <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                     <div className={`h-full transition-all duration-700 ${rage > 80 ? 'bg-red-500' : 'bg-pink-500'}`} style={{width:`${rage}%`}}></div>
                                 </div>
                             </div>
 
-                            {/* Chat Messages */}
-                            <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-hide bg-slate-50/30">
+                            {/* Messages */}
+                            <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-hide bg-slate-50/20">
                                 {messages.map((m, i) => (
                                     <div key={i} className={`flex gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'justify-start'} animate-in slide-in-from-bottom-2`}>
-                                        {/* 头像 */}
-                                        <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-sm shadow-sm ${
-                                            m.role === 'user' ? 'bg-blue-500 text-white' : 'bg-pink-500 text-white'
+                                        {/* Avatar */}
+                                        <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-sm border-2 ${
+                                            m.role === 'user' ? 'bg-blue-500 text-white border-blue-100' : 'bg-pink-500 text-white border-pink-100'
                                         }`}>
                                             {m.role === 'user' ? userConfig.name[0]?.toUpperCase() : '仙'}
                                         </div>
-                                        {/* 气泡 */}
-                                        <div className={`p-4 rounded-[1.2rem] text-[13.5px] leading-relaxed max-w-[75%] shadow-sm chat-bubble ${
+                                        {/* Bubble */}
+                                        <div className={`p-4 rounded-2xl text-[13.5px] leading-relaxed max-w-[75%] shadow-sm ${
                                             m.role === 'user' 
-                                            ? 'bg-blue-500 text-white rounded-tr-none bubble-user' 
-                                            : 'bg-white text-slate-800 border border-slate-100 rounded-tl-none bubble-ai'
+                                            ? 'bg-blue-500 text-white rounded-tr-none' 
+                                            : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none'
                                         }`}>
                                             {m.text}
                                         </div>
@@ -268,8 +251,8 @@
                                 ))}
                                 {loading && (
                                     <div className="flex justify-start gap-3 items-center">
-                                        <div className="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center font-bold text-sm text-pink-500">仙</div>
-                                        <div className="bg-white px-4 py-2 rounded-full border border-slate-100 text-[10px] text-slate-400 font-bold animate-pulse">仙女正在锐评...</div>
+                                        <div className="w-9 h-9 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-sm">仙</div>
+                                        <div className="bg-white px-4 py-2 rounded-2xl border border-slate-100 text-[10px] text-slate-400 font-bold animate-pulse">对方正在输入暴论...</div>
                                     </div>
                                 )}
                                 <div ref={scrollRef}></div>
@@ -277,15 +260,15 @@
 
                             {/* Input */}
                             <div className="p-4 border-t border-slate-100 bg-white">
-                                <div className="flex gap-2 bg-slate-100 rounded-2xl p-1.5 border border-slate-200 focus-within:border-pink-300 transition-all shadow-inner">
+                                <div className="flex gap-2 bg-slate-50 rounded-2xl p-1.5 border border-slate-200 focus-within:border-pink-300 transition-all shadow-inner">
                                     <input 
-                                        className="flex-1 bg-transparent border-none px-4 py-2 text-sm outline-none placeholder:text-slate-400 text-slate-800" 
+                                        className="flex-1 bg-transparent border-none px-4 py-2 text-sm outline-none placeholder:text-slate-300 text-slate-700" 
                                         value={input} 
                                         onChange={e=>setInput(e.target.value)} 
                                         onKeyDown={e=>e.key==='Enter'&&handleSend()} 
-                                        placeholder="输入你的言论..."
+                                        placeholder="输入内容..."
                                     />
-                                    <button onClick={handleSend} disabled={loading} className="bg-pink-500 text-white p-3 rounded-xl hover:bg-pink-600 active:scale-95 transition-all shadow-md">
+                                    <button onClick={handleSend} disabled={loading} className="bg-pink-500 text-white p-3 rounded-xl hover:bg-pink-600 active:scale-95 shadow-md">
                                         <Send size={18} />
                                     </button>
                                 </div>
@@ -293,18 +276,18 @@
                         </div>
                     )}
 
-                    {/* RESULT 结果 */}
+                    {/* RESULT */}
                     {gameState === 'RESULT' && (
                         <div className="p-10 flex-1 flex flex-col items-center justify-center text-center animate-in zoom-in">
-                            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mb-6 shadow-xl border border-red-100">
+                            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mb-6 shadow-lg border border-red-100">
                                 <Skull size={56} className="text-red-500" />
                             </div>
-                            <h2 className="text-4xl font-bold text-red-500 tracking-tight mb-2">已拉黑/破防</h2>
+                            <h2 className="text-4xl font-bold text-red-500 tracking-tight mb-2 italic">已被拉黑</h2>
                             <div className="mb-10">
-                                <div className="text-7xl font-black text-slate-900 tracking-tighter mb-1 leading-none">{turns}</div>
-                                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">生存回合数 (ROUNDS)</div>
+                                <div className="text-7xl font-black text-slate-800 tracking-tighter mb-1 leading-none">{turns}</div>
+                                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">回合数 (ROUNDS)</div>
                             </div>
-                            <button onClick={()=>setGameState('MENU')} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-xl">回到大厅</button>
+                            <button onClick={()=>setGameState('MENU')} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-xl">回到场景选择</button>
                         </div>
                     )}
                 </div>

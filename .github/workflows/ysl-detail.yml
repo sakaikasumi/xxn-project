@@ -1,0 +1,20 @@
+name: YSL current download route inspection
+on:
+  push:
+    branches: [ysl-resource-bridge]
+    paths: ['.github/workflows/ysl-detail.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/detail_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: YSL-current-download-evidence
+          path: out/
+          retention-days: 14

@@ -1,0 +1,50 @@
+name: YSL distinct official channel CDN probe
+on:
+  push:
+    branches: [ysl-resource-bridge]
+    paths: ['.github/workflows/ysl-channel-probe.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ysl-resource-bridge
+      - name: Bounded APK header and directory inspection
+        shell: python
+        run: |
+          import sys,pathlib,json,tempfile,re
+          sys.path.insert(0,str(pathlib.Path.cwd()))
+          from bridge import Bridge,DiskCache,stamp
+          url='https://autopatch-projecti-tc-channel.zulong.com/projectIgame_ob/media/yslzm_cn_360-zulong_signed.apk'
+          out=pathlib.Path('channel-evidence');out.mkdir(exist_ok=True)
+          result={'checkedAt':stamp(),'source':'https://mystyle.archosaur.com/d/js/index.js','url':url,'gameManifestObtained':False}
+          try:
+            with tempfile.TemporaryDirectory() as tmp:
+              b=Bridge(DiskCache(tmp));p=b.probe(url);result['probe']=p
+              print('CHANNEL_PROBE',json.dumps(p,ensure_ascii=False),flush=True)
+              if p['state']=='sample_received' and p['magic']=='ZIP/APK':
+                index=b.archive(url);src=b.source(url)
+                result['archiveSummary']={k:v for k,v in index.items() if k!='items'}
+                allrows=b.cache.get_json('zip:'+url+':'+src.version) or index['items']
+                (out/'apk-index.json').write_text(json.dumps(allrows,ensure_ascii=False,indent=2),encoding='utf-8')
+                candidates=[i for i in allrows if not i['directory'] and 0<i['bytes']<=1024*1024 and re.search(r'config|manifest|version|\.ini$|iguf|saved_download',i['name'],re.I)]
+                result['configCandidates']=candidates
+                result['configInspections']=[]
+                for item in candidates[:6]:
+                  try:
+                    raw=b.entry(url,item['name']);text=raw.decode('utf-8','replace')
+                    result['configInspections'].append({'name':item['name'],'bytes':len(raw),'excerpt':text[:12000]})
+                  except Exception as e:result['configInspections'].append({'name':item['name'],'error':str(e)})
+                print('APK_DISCOVERY',json.dumps(result,ensure_ascii=False)[:32000],flush=True)
+          except Exception as e:result['error']=str(e);print('CHANNEL_ERROR',str(e),flush=True)
+          (out/'channel-probe.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: YSL-channel-CDN-evidence
+          path: channel-evidence/
+          retention-days: 30

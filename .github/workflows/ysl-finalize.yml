@@ -1,0 +1,107 @@
+name: YSL 0.1.1 verified release
+on:
+  push:
+    branches: [ysl-resource-bridge]
+    paths: ['.github/workflows/ysl-finalize.yml']
+permissions:
+  contents: write
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ysl-resource-bridge
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply empty-response fix and record completed investigation
+        shell: python
+        run: |
+          from pathlib import Path
+          import json
+          p=Path('bridge.py');s=p.read_text(encoding='utf-8')
+          old="good=meta['status'] in (200,206)"
+          assert s.count(old)==1
+          s=s.replace(old,"good=bool(data) and meta['status'] in (200,206)")
+          p.write_text(s,encoding='utf-8')
+          p=Path('tests.py');s=p.read_text(encoding='utf-8')
+          old='    def test_magic(self):'
+          assert s.count(old)==1
+          s=s.replace(old,"    def test_empty_200_is_not_asset(self):\n        b=Bridge(self.cache,FakeNetwork(b'',mode='ignore'))\n        result=b.probe(URL)\n        self.assertEqual(result['state'],'not_asset')\n        self.assertEqual(result['bytesSampled'],0)\n\n"+old)
+          p.write_text(s,encoding='utf-8')
+          for name in ('bridge.py','client.html','tests.py','build_helper.py','README.md'):
+              p=Path(name);s=p.read_text(encoding='utf-8').replace('v0.1','v0.1.1').replace("'0.1.0'","'0.1.1'")
+              p.write_text(s,encoding='utf-8')
+          evidence={
+            'schemaVersion':2,'checkedDate':'2026-09-13','scope':'public CN official downloads; game manifest not obtained',
+            'pcInstaller':{'url':'https://autopatch-projecti-put-hs.zulong.com/projectIgame_ob/media/yslzminstallerbd.exe','discoveredFrom':'https://mystyle.archosaur.com/assets/260831/public/pcclick.js','size':83045208,'sha256':'89f1a015f006810b8dd0dd00caf5f172a2e5dde30a5d6025c6c192b97af0643d','etag':'"a57bd902a20408e9f8f3f33c20e93b45"','rangeStatus':206,'fullyDownloadedForStaticInspection':True,'executed':False,'fileDescription':'以闪亮之名','originalFilename':'AcroalInstall.exe','installerVersionNotGameVersion':'1.9.12.0','sections':[{'name':'.enigma1','offset':691712,'size':81641472},{'name':'.enigma2','offset':82333184,'size':688128}],'innerDownloadConfiguration':'not_extracted','probeRun':'https://github.com/sakaikasumi/xxn-project/actions/runs/34757992192'},
+            'android':{'url':'https://autopatch-projecti-tc-pkg.zulong.com/projectIgame_ob/media/yslzm.apk','discoveredFrom':'https://mystyle.archosaur.com/d/js/index.js','status':200,'actualType':'HTML/script, not APK','rangeHonored':False},
+            'channelAndroid':{'url':'https://autopatch-projecti-tc-channel.zulong.com/projectIgame_ob/media/yslzm_cn_360-zulong_signed.apk','status':200,'bytes':0,'state':'not_asset','note':'0.1 incorrectly labelled this empty response sample_received; fixed and regression tested in 0.1.1','probeRun':'https://github.com/sakaikasumi/xxn-project/actions/runs/34758149359'},
+            'gameManifest':{'state':'not_obtained','coverage':'unknown','items':[]},
+            'websiteTitleVersionNotAssetVersion':'4.4',
+            'note':'The official installer is not included in this program package. This records completed probes, not a new probe at application startup.'}
+          Path('evidence.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2),encoding='utf-8')
+          with Path('PROJECT_STATUS.md').open('a',encoding='utf-8') as f:
+              f.write('\n## 0.1.1 封包补充\n修复 HTTP 200 零字节误标为 sample_received，新增第 30 项测试。原磁盘缓存路径不变。PC 安装器 83,045,208 bytes 已完整静态检查，存在 .enigma1/.enigma2，内层下载配置仍未取出；普通 7-Zip 只展开 PE 节。另一个官方 tc-channel APK 返回 200 零字节，不能用作资源。最新证据见 evidence.json。最终交付以 v0.1.1 包为准，0.1 为中间构建。\n')
+      - name: Linux tests and JavaScript syntax
+        run: |
+          mkdir -p out
+          set -o pipefail
+          python -m unittest tests -v 2>&1 | tee out/test-results.txt
+          python build_helper.py
+          node --check out/client-check.js
+      - name: Commit tested fix to independent branch
+        id: commit
+        run: |
+          test "$(git branch --show-current)" = "ysl-resource-bridge"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bridge.py client.html tests.py build_helper.py README.md evidence.json PROJECT_STATUS.md
+          git commit -m "Release YSL 0.1.1: reject empty successful responses and preserve verified investigation"
+          git push origin HEAD:ysl-resource-bridge
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YSL-v0.1.1-source-client
+          path: |
+            dist/
+            out/
+          retention-days: 30
+  windows:
+    needs: source
+    runs-on: windows-latest
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.source.outputs.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Windows regression tests
+        run: python -m unittest tests -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: YSL-v0.1.1-source-client
+          path: source-results
+      - name: Build self-contained portable program
+        run: |
+          python -m pip install pyinstaller==6.16.0
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          Copy-Item source-results/out/*.txt out/
+          python build_helper.py
+          python -m PyInstaller --clean --noconfirm --onefile --noconsole --name YSL_v0.1.1 --add-data "client.html:." --add-data "evidence.json:." bridge.py
+      - name: Verify actual executable
+        run: python build_helper.py --smoke-exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YSL-v0.1.1-Windows-portable
+          path: dist/
+          retention-days: 30

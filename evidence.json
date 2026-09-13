@@ -1,15 +1,54 @@
 {
-  "schemaVersion": 1,
-  "scope": "CN public official website; not a game manifest",
-  "checkedAt": "2026-09-13T12:32:09Z",
-  "executedBy": "GitHub Actions Linux runner",
-  "runs": ["https://github.com/sakaikasumi/xxn-project/actions/runs/34757184672", "https://github.com/sakaikasumi/xxn-project/actions/runs/34757345400"],
-  "website": {"url":"https://mystyle.archosaur.com/", "status":200, "bytes":9346, "titleNotAssetVersion":"《以闪亮之名》官方网站——全新4.4版本·神迹初诞9月1日-9月21日限时上线！"},
-  "actualPcButton": {"source":"https://mystyle.archosaur.com/assets/260831/public/pcclick.js", "status":200, "scriptBytes":5096, "selector":".desktop .pc_down", "url":"https://autopatch-projecti-put-hs.zulong.com/projectIgame_ob/media/yslzminstallerbd.exe", "binaryProbeState":"not_yet_run_at_snapshot_time"},
-  "olderDownloads": [
-    {"url":"https://autopatch-projecti-tc-pkg.zulong.com/projectIgame_ob/media/yslzm.apk", "source":"https://mystyle.archosaur.com/mobile.html", "status":200, "contentType":"text/html", "length":987, "rangeHonored":false, "sampleStartsWith":"<script>function a(a){", "state":"not_asset"},
-    {"url":"https://autopatch-projecti-tc-pkg.zulong.com/projectIgame_ob/media/yslzm-installer-x64.exe", "source":"https://mystyle.archosaur.com/home/index.html", "status":200, "contentType":"text/html", "length":987, "rangeHonored":false, "sampleStartsWith":"<script>function a(a){", "state":"not_asset"}
-  ],
-  "gameManifest": {"state":"not_obtained", "coverage":"unknown", "items":[]},
-  "note":"This is a compact transcription of completed probe logs, not a replacement for raw artifacts. No game accounts, binaries executed or full GB downloads. Public resource availability can differ by network."
+  "schemaVersion": 2,
+  "checkedDate": "2026-09-13",
+  "scope": "public CN official downloads; game manifest not obtained",
+  "pcInstaller": {
+    "url": "https://autopatch-projecti-put-hs.zulong.com/projectIgame_ob/media/yslzminstallerbd.exe",
+    "discoveredFrom": "https://mystyle.archosaur.com/assets/260831/public/pcclick.js",
+    "size": 83045208,
+    "sha256": "89f1a015f006810b8dd0dd00caf5f172a2e5dde30a5d6025c6c192b97af0643d",
+    "etag": "\"a57bd902a20408e9f8f3f33c20e93b45\"",
+    "rangeStatus": 206,
+    "fullyDownloadedForStaticInspection": true,
+    "executed": false,
+    "fileDescription": "以闪亮之名",
+    "originalFilename": "AcroalInstall.exe",
+    "installerVersionNotGameVersion": "1.9.12.0",
+    "sections": [
+      {
+        "name": ".enigma1",
+        "offset": 691712,
+        "size": 81641472
+      },
+      {
+        "name": ".enigma2",
+        "offset": 82333184,
+        "size": 688128
+      }
+    ],
+    "innerDownloadConfiguration": "not_extracted",
+    "probeRun": "https://github.com/sakaikasumi/xxn-project/actions/runs/34757992192"
+  },
+  "android": {
+    "url": "https://autopatch-projecti-tc-pkg.zulong.com/projectIgame_ob/media/yslzm.apk",
+    "discoveredFrom": "https://mystyle.archosaur.com/d/js/index.js",
+    "status": 200,
+    "actualType": "HTML/script, not APK",
+    "rangeHonored": false
+  },
+  "channelAndroid": {
+    "url": "https://autopatch-projecti-tc-channel.zulong.com/projectIgame_ob/media/yslzm_cn_360-zulong_signed.apk",
+    "status": 200,
+    "bytes": 0,
+    "state": "not_asset",
+    "note": "0.1 incorrectly labelled this empty response sample_received; fixed and regression tested in 0.1.1",
+    "probeRun": "https://github.com/sakaikasumi/xxn-project/actions/runs/34758149359"
+  },
+  "gameManifest": {
+    "state": "not_obtained",
+    "coverage": "unknown",
+    "items": []
+  },
+  "websiteTitleVersionNotAssetVersion": "4.4",
+  "note": "The official installer is not included in this program package. This records completed probes, not a new probe at application startup."
 }

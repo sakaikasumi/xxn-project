@@ -50,6 +50,12 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(parse_range('bytes=0-7',10),(0,7))
         for s in ['bytes=0-','bytes=-3','bytes=0-1,3-4','bytes=9-10','bytes=5-1','items=0-2']:
             with self.subTest(s=s),self.assertRaises(BridgeError):parse_range(s,10)
+    def test_empty_200_is_not_asset(self):
+        b=Bridge(self.cache,FakeNetwork(b'',mode='ignore'))
+        result=b.probe(URL)
+        self.assertEqual(result['state'],'not_asset')
+        self.assertEqual(result['bytesSampled'],0)
+
     def test_magic(self):
         self.assertEqual(magic(b'  <script>x'),'HTML/script');self.assertEqual(magic(b'MZabc'),'PE installer')
     def test_error_status(self):
@@ -124,7 +130,7 @@ class HttpTests(unittest.TestCase):
     def test_shutdown_requires_token(self):
         s,d,h=self.req('/api/ysl/quit','POST');self.assertEqual(s,403)
     def test_html_txt_identical(self):
-        s,a,h=self.req('/YSL_v0.1.html');s,b,h=self.req('/YSL_v0.1.txt');self.assertEqual(a,b);self.assertIn(b'<html',a)
+        s,a,h=self.req('/YSL_v0.1.1.html');s,b,h=self.req('/YSL_v0.1.1.txt');self.assertEqual(a,b);self.assertIn(b'<html',a)
     def test_asset_range(self):
         s,d,h=self.req('/api/ysl/asset?url='+quote(URL,safe=''),headers={'Range':'bytes=0-7'})
         self.assertEqual(s,206);self.assertEqual(d,zip_fixture()[:8]);self.assertTrue(h['Content-Range'].startswith('bytes 0-7/'))

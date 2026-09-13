@@ -11,7 +11,7 @@ import threading, time, webbrowser, zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit, urlunsplit, urljoin, parse_qs
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 ROOT = 'https://mystyle.archosaur.com/'
 DOMAIN_ROOTS = ('archosaur.com', 'zulong.com')
 MAX_CHUNK = 2 * 1024 * 1024
@@ -274,7 +274,7 @@ class Bridge:
         self.cache=cache; self.net=network or Network(); self.token=secrets.token_urlsafe(24); self.lock=threading.Lock()
     def probe(self,url):
         meta,data=self.net.fetch(url,headers={'Range':'bytes=0-127'},cap=128,sample=True)
-        typ=magic(data); good=meta['status'] in (200,206) and typ!='HTML/script' and 'text/html' not in meta['headers'].get('content-type','')
+        typ=magic(data); good=bool(data) and meta['status'] in (200,206) and typ!='HTML/script' and 'text/html' not in meta['headers'].get('content-type','')
         m=re.search(r'/(\d+)$',meta['headers'].get('content-range',''))
         length=int(m[1]) if m else int(meta['headers'].get('content-length','0')) if meta['headers'].get('content-length','').isdigit() else None
         value={**meta,'state':'sample_received' if good else 'not_asset','magic':typ,'bytesSampled':len(data),'first128Hex':data.hex(),'rangeHonored':meta['status']==206,'size':length}
@@ -371,7 +371,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             self.allowed(); u=urlsplit(self.path); q=parse_qs(u.query); get=lambda k,default='':q.get(k,[default])[0]
             b=self.server.bridge; path=u.path
-            if path in ('/','/client.html','/YSL_v0.1.html','/YSL_v0.1.txt'):
+            if path in ('/','/client.html','/YSL_v0.1.1.html','/YSL_v0.1.1.txt'):
                 headers={'Content-Disposition':'attachment; filename="'+path[1:]+'"'} if path.startswith('/YSL_') else {}
                 self.send(200,(RESOURCES/'client.html').read_bytes(),'text/plain; charset=utf-8' if path.endswith('.txt') else 'text/html; charset=utf-8',headers); return
             if path=='/api/ysl/health':

@@ -17,35 +17,32 @@ jobs:
           BASE='https://ysl-resource-bridge-h7pu8nnbm-sakaikasumi02-2048s-projects.vercel.app'
           ALIAS='https://ysl-resource-bridge-sakaikasumi02-2048s-projects.vercel.app'
           mkdir -p evidence
-          for n in {1..12}; do
-            if curl -fsS --connect-timeout 5 --max-time 20 "$BASE/api/health" -o evidence/health.json; then break; fi
-            sleep 5
-          done
-          cat evidence/health.json
-          curl -fsS --connect-timeout 5 --max-time 20 "$BASE/api/catalog" -o evidence/catalog.json
-          cat evidence/catalog.json
-          curl -fsS --connect-timeout 5 --max-time 30 "$BASE/api/discover" -o evidence/discover.json
+          curl -fsSL --connect-timeout 5 --max-time 30 -D evidence/health.headers "$BASE/api/health" -o evidence/health.json
+          echo HEALTH; cat evidence/health.headers; cat evidence/health.json
+          curl -fsSL --connect-timeout 5 --max-time 30 "$BASE/api/catalog" -o evidence/catalog.json
+          echo CATALOG; cat evidence/catalog.json
+          curl -fsSL --connect-timeout 5 --max-time 40 "$BASE/api/discover" -o evidence/discover.json
           python - <<'PY'
           import json
           d=json.load(open('evidence/discover.json',encoding='utf8'))
           print('DISCOVER',json.dumps({'version':d.get('version'),'downloads':d.get('downloads'),'checks':d.get('checks'),'catalog':d.get('catalog')},ensure_ascii=False))
           PY
-          curl -sS -D evidence/options.headers -o /dev/null -X OPTIONS "$BASE/api/health" -H 'Origin: null' -H 'Access-Control-Request-Method: GET'
-          cat evidence/options.headers
+          curl -sSL -D evidence/options.headers -o /dev/null -X OPTIONS "$BASE/api/health" -H 'Origin: null' -H 'Access-Control-Request-Method: GET'
+          echo OPTIONS; cat evidence/options.headers
           grep -qi 'access-control-allow-origin: \*' evidence/options.headers
           URL='https://autopatch-projecti-put-hs.zulong.com/projectIgame_ob/media/yslzminstallerbd.exe'
-          CODE=$(curl -sS --connect-timeout 5 --max-time 30 -w '%{http_code}' -o evidence/range.bin -D evidence/range.headers -G "$BASE/api/asset" --data-urlencode "url=$URL" --data 'start=0' --data 'end=127')
-          echo RANGE_STATUS=$CODE
-          cat evidence/range.headers
+          CODE=$(curl -sSL --connect-timeout 5 --max-time 40 -w '%{http_code}' -o evidence/range.bin -D evidence/range.headers -G "$BASE/api/asset" --data-urlencode "url=$URL" --data 'start=0' --data 'end=127')
+          echo RANGE_STATUS=$CODE; cat evidence/range.headers
           test "$CODE" = 206 -o "$CODE" = 200
           python - <<'PY'
           b=open('evidence/range.bin','rb').read();print('RANGE_BYTES',len(b),b[:16].hex());assert len(b)==128 and b[:2]==b'MZ'
           PY
-          # Stable alias must also be public; if unavailable, record without masking deployment test.
-          curl -sS --connect-timeout 5 --max-time 15 -w '\nALIAS_STATUS=%{http_code}\n' "$ALIAS/api/health" | tee evidence/alias.txt
+          ACODE=$(curl -sSL --connect-timeout 5 --max-time 30 -w '%{http_code}' -o evidence/alias.json -D evidence/alias.headers "$ALIAS/api/health")
+          echo ALIAS_STATUS=$ACODE; cat evidence/alias.headers; cat evidence/alias.json
+          test "$ACODE" = 200
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: YSL-vercel-smoke
+          name: YSL-vercel-smoke-v2
           path: evidence/
           retention-days: 7

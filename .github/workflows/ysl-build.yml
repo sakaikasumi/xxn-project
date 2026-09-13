@@ -1,0 +1,85 @@
+name: YSL relay tests and portable build
+on:
+  push:
+    branches: [ysl-resource-bridge]
+    paths: ['bridge.py', 'client.html', 'tests.py', 'live_probe.py', 'build_helper.py', 'evidence.json', '.github/workflows/ysl-build.yml']
+permissions:
+  contents: read
+concurrency:
+  group: ysl-build
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit and local HTTP tests
+        run: |
+          mkdir -p out
+          set -o pipefail
+          python -m unittest tests -v 2>&1 | tee out/test-results.txt
+      - name: Real bounded official-source probe
+        run: python live_probe.py
+      - name: Prepare matching clients and check JavaScript
+        run: |
+          python build_helper.py
+          node --check out/client-check.js
+      - name: Start local relay
+        run: python bridge.py --no-browser --cache /tmp/ysl-build-cache >out/server-console.txt 2>&1 &
+      - name: Install browser verifier
+        run: |
+          npm install --no-save agent-browser
+          npx agent-browser install --with-deps
+      - name: Browser smoke check
+        run: |
+          npx agent-browser open http://127.0.0.1:18763/
+          npx agent-browser wait --load networkidle
+          npx agent-browser snapshot -i > out/browser-snapshot.txt
+          npx agent-browser get text body > out/browser-smoke.txt
+          grep '本地中转已连接' out/browser-smoke.txt
+          npx agent-browser click 'button[data-tab="cache"]'
+          npx agent-browser get text '#cache' >> out/browser-smoke.txt
+          npx agent-browser click 'button[data-tab="diagnostics"]'
+          npx agent-browser screenshot out/client-ui.png
+          npx agent-browser close
+      - name: Final source package
+        run: python build_helper.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: YSL-v0.1-source-and-client
+          path: |
+            dist/YSL_v0.1.html
+            dist/YSL_v0.1.txt
+            dist/YSL_v0.1_source.zip
+            dist/README.txt
+            out/
+          retention-days: 30
+  windows:
+    needs: test
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Test Windows source
+        run: python -m unittest tests -v
+      - name: Build one-file local relay
+        run: |
+          python -m pip install pyinstaller==6.16.0
+          python build_helper.py
+          python -m PyInstaller --clean --noconfirm --onefile --noconsole --name YSL_v0.1 --add-data "client.html:." --add-data "evidence.json:." bridge.py
+      - name: Test the actual executable
+        run: python build_helper.py --smoke-exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YSL-v0.1-Windows-portable
+          path: dist/
+          retention-days: 30

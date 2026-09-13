@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "scope": "CN public official website; not a game manifest",
+  "checkedAt": "2026-09-13T12:32:09Z",
+  "executedBy": "GitHub Actions Linux runner",
+  "runs": ["https://github.com/sakaikasumi/xxn-project/actions/runs/34757184672", "https://github.com/sakaikasumi/xxn-project/actions/runs/34757345400"],
+  "website": {"url":"https://mystyle.archosaur.com/", "status":200, "bytes":9346, "titleNotAssetVersion":"《以闪亮之名》官方网站——全新4.4版本·神迹初诞9月1日-9月21日限时上线！"},
+  "actualPcButton": {"source":"https://mystyle.archosaur.com/assets/260831/public/pcclick.js", "status":200, "scriptBytes":5096, "selector":".desktop .pc_down", "url":"https://autopatch-projecti-put-hs.zulong.com/projectIgame_ob/media/yslzminstallerbd.exe", "binaryProbeState":"not_yet_run_at_snapshot_time"},
+  "olderDownloads": [
+    {"url":"https://autopatch-projecti-tc-pkg.zulong.com/projectIgame_ob/media/yslzm.apk", "source":"https://mystyle.archosaur.com/mobile.html", "status":200, "contentType":"text/html", "length":987, "rangeHonored":false, "sampleStartsWith":"<script>function a(a){", "state":"not_asset"},
+    {"url":"https://autopatch-projecti-tc-pkg.zulong.com/projectIgame_ob/media/yslzm-installer-x64.exe", "source":"https://mystyle.archosaur.com/home/index.html", "status":200, "contentType":"text/html", "length":987, "rangeHonored":false, "sampleStartsWith":"<script>function a(a){", "state":"not_asset"}
+  ],
+  "gameManifest": {"state":"not_obtained", "coverage":"unknown", "items":[]},
+  "note":"This is a compact transcription of completed probe logs, not a replacement for raw artifacts. No game accounts, binaries executed or full GB downloads. Public resource availability can differ by network."
+}

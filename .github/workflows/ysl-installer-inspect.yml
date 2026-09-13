@@ -1,0 +1,92 @@
+name: YSL official installer metadata inspection
+on:
+  push:
+    branches: [ysl-resource-bridge]
+    paths: ['.github/workflows/ysl-installer-inspect.yml']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ysl-resource-bridge
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download bounded verified installer; inspect only as data
+        shell: python
+        run: |
+          import hashlib,json,pathlib,re,subprocess,tempfile,shutil
+          from urllib.parse import urlsplit
+          from bridge import Bridge,DiskCache,SEEDS,BridgeError,stamp,validate_url
+          out=pathlib.Path('installer-evidence');out.mkdir(exist_ok=True)
+          report={'checkedAt':stamp(),'executedGameBinaries':False,'gameManifestObtained':False,'inspections':[],'configProbes':[]}
+          with tempfile.TemporaryDirectory() as tmp:
+              root=pathlib.Path(tmp);b=Bridge(DiskCache(root/'cache'));src=b.source(SEEDS[0]['url'])
+              assert 0<src.size<=100*1024*1024,'Installer exceeds bounded inspection budget'
+              exe=root/'official-installer.exe';digest=hashlib.sha256()
+              with exe.open('wb') as f:
+                  for start in range(0,src.size,2*1024*1024):
+                      data=src.read(start,min(src.size-1,start+2*1024*1024-1));f.write(data);digest.update(data)
+              report['installer']={'url':src.url,'bytes':src.size,'etag':src.etag,'sha256':digest.hexdigest()}
+              seven=shutil.which('7z') or shutil.which('7zz');assert seven,'7-Zip missing'
+              listed=subprocess.run([seven,'l','-slt',str(exe)],capture_output=True,text=True,errors='replace',timeout=30)
+              (out/'archive-list.txt').write_text(listed.stdout,encoding='utf-8')
+              report['listExit']=listed.returncode
+              print('INSTALLER_LIST',listed.stdout[:40000],flush=True)
+              entries=[]
+              for block in listed.stdout.split('\n\n'):
+                  item={}
+                  for line in block.splitlines():
+                      if ' = ' in line:
+                          k,v=line.split(' = ',1);item[k]=v
+                  if 'Path' in item and item.get('Size','').isdigit():entries.append(item)
+              report['archiveEntries']=entries
+              def urls(data):
+                  values=[]
+                  for text in [data.decode('latin1','ignore'),data.decode('utf-16le','ignore')]:
+                      values+=re.findall(r'https?://[A-Za-z0-9./_%?=&:+\-]{8,500}',text)
+                  return sorted(set(x.rstrip('.,;') for x in values))
+              # Inspect outer executable strings, then bounded actual archive entries.
+              candidates=set(urls(exe.read_bytes()))
+              eligible=[i for i in entries if 0<int(i['Size'])<=8*1024*1024 and re.search(r'\.(?:ini|json|xml|cfg|conf|txt|url|js|exe|dll)$',i['Path'],re.I)]
+              eligible.sort(key=lambda i:(not bool(re.search(r'\.ini$|\.json$|config|update|launcher',i['Path'],re.I)),int(i['Size'])))
+              for entry in eligible[:18]:
+                  name=entry['Path'];size=int(entry['Size'])
+                  unpacked=subprocess.run([seven,'x','-so','-y',str(exe),name],capture_output=True,timeout=35)
+                  data=unpacked.stdout
+                  if unpacked.returncode or len(data)!=size:
+                      report['inspections'].append({'name':name,'error':'size_or_extract_failure','actual':len(data)});continue
+                  found=urls(data);candidates.update(found)
+                  item={'name':name,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'urls':found}
+                  if re.search(r'\.(?:ini|json|xml|cfg|conf|txt|url|js)$',name,re.I):
+                      text=data.decode('utf-8-sig','replace')
+                      if text.count('\x00')>10:text=data.decode('utf-16','replace')
+                      item['textExcerpt']=text[:16000]
+                  report['inspections'].append(item)
+                  print('ENTRY_METADATA',json.dumps(item,ensure_ascii=False),flush=True)
+              report['embeddedUrls']=sorted(candidates)
+              config_urls=[]
+              for u in sorted(candidates):
+                  try:validate_url(u)
+                  except BridgeError:continue
+                  if re.search(r'\.json$|\.ini$|\.xml$|manifest|version|config',urlsplit(u).path,re.I):config_urls.append(u)
+              for url in config_urls[:6]:
+                  try:
+                      meta,data=b.net.fetch(url,cap=2*1024*1024)
+                      item={**meta,'bytesRead':len(data),'textExcerpt':data.decode('utf-8','replace')[:16000]}
+                  except BridgeError as e:item={'url':url,**e.as_dict()}
+                  report['configProbes'].append(item);print('CONFIG_METADATA',json.dumps(item,ensure_ascii=False),flush=True)
+              report['requests']=b.net.requests;report['receivedBytes']=b.net.received
+          (out/'installer-inspection.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+          print('RESOURCE_NEXT_URLS',json.dumps(report['embeddedUrls'],ensure_ascii=False),flush=True)
+          print('INSPECTION_SUMMARY',json.dumps({k:v for k,v in report.items() if k not in ('inspections','archiveEntries','configProbes','embeddedUrls')},ensure_ascii=False),flush=True)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: YSL-official-installer-evidence
+          path: installer-evidence/
+          retention-days: 30

@@ -4,6 +4,7 @@ No game account, no executable loading, no pretend asset catalogue.
 Python 3.11+; standard library only. Windows builds embed this runtime.
 """
 from __future__ import annotations
+from contextlib import contextmanager
 import argparse, datetime, hashlib, html, http.client, io, ipaddress, json
 import logging, os, pathlib, re, secrets, socket, sqlite3, ssl, struct, sys
 import threading, time, webbrowser, zipfile
@@ -67,7 +68,7 @@ class Network:
             trail=[]
             for hop in range(3):
                 p=validate_url(url)
-                ips=list(dict.fromkeys(x[4][0] for x in socket.getaddrinfo(p.hostname,443,type=socket.SOCK_STREAM)))
+                ips=sorted(set(x[4][0] for x in socket.getaddrinfo(p.hostname,443,type=socket.SOCK_STREAM)), key=lambda x: (':' in x, x))
                 if not ips or any(not ipaddress.ip_address(x).is_global for x in ips):
                     raise BridgeError('private_address','拒绝私网、保留或回环目标',403)
                 c=PinnedTLS(p.hostname,ips[0]); self.requests+=1
@@ -133,7 +134,14 @@ class DiskCache:
         with self.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS blocks(k TEXT PRIMARY KEY, n INTEGER, digest TEXT)')
             db.execute('CREATE TABLE IF NOT EXISTS documents(k TEXT PRIMARY KEY, value TEXT, ts REAL)')
-    def connect(self): return sqlite3.connect(self.dbpath,timeout=20)
+    @contextmanager
+    def connect(self):
+        db = sqlite3.connect(self.dbpath, timeout=20)
+        try:
+            with db:
+                yield db
+        finally:
+            db.close()
     def get(self,k):
         with self.connect() as db: row=db.execute('SELECT n,digest FROM blocks WHERE k=?',(k,)).fetchone()
         if row:
@@ -276,7 +284,7 @@ class Bridge:
         if not refresh: return saved or {'state':'seed_only','checkedAt':None,'downloads':SEEDS,'coverage':'unknown','gameAssetCount':None}
         if not self.lock.acquire(blocking=False): raise BridgeError('busy','入口检查正在进行',429)
         try:
-            urls=[ROOT,urljoin(ROOT,'mobile.html'),urljoin(ROOT,'d/index.html')]
+            urls=[ROOT,urljoin(ROOT,'mobile.html'),urljoin(ROOT,'d/js/index.js')]
             seen=set(); found={}; docs=[]; errors=[]
             while urls and len(seen)<7:
                 url=urls.pop(0)

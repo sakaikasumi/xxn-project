@@ -7,9 +7,9 @@ with tempfile.TemporaryDirectory() as tmp:
     b=Bridge(DiskCache(tmp))
     extra=[]
     try:
-        url='https://mystyle.archosaur.com/d/index.html'
+        url='https://mystyle.archosaur.com/d/js/index.js'
         meta,data=b.net.fetch(url); text=data.decode('utf-8','replace');(OUT/'mobile-download-page.txt').write_text(text,encoding='utf-8')
-        links=extract_links(text,url);result['documents'].append({**meta,'links':links});print('MOBILE_DOWNLOAD_LINKS',json.dumps(links,ensure_ascii=False),flush=True)
+        print('MOBILE_DOWNLOAD_JS',text[:16000],flush=True); links=extract_links(text,url);result['documents'].append({**meta,'links':links});print('MOBILE_DOWNLOAD_LINKS',json.dumps(links,ensure_ascii=False),flush=True)
         for item in links:
             if re.search(r'\.(?:apk|exe)$',item['url'],re.I):extra.append({'name':'mobile-page','url':item['url'],'source':url})
     except BridgeError as e:result['documents'].append(e.as_dict())

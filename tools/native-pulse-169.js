@@ -39,10 +39,8 @@ function callYourNameSourcePulseState164(live){
   vec2 uv=(vUv-.5)*1.18+.5;
   vec3 sharp=flare169(uv);
   const float r1=.0125,r2=.033;
-  vec3 b1=(flare169(uv+vec2(r1,0.0))+flare169(uv-vec2(r1,0.0))+flare169(uv+vec2(0.0,r1))+flare169(uv-vec2(0.0,r1))
-          +flare169(uv+vec2(r1*.707,r1*.707))+flare169(uv+vec2(-r1*.707,r1*.707))+flare169(uv+vec2(r1*.707,-r1*.707))+flare169(uv+vec2(-r1*.707,-r1*.707)))/8.0;
-  vec3 b2=(flare169(uv+vec2(r2,0.0))+flare169(uv-vec2(r2,0.0))+flare169(uv+vec2(0.0,r2))+flare169(uv-vec2(0.0,r2))
-          +flare169(uv+vec2(r2*.707,r2*.707))+flare169(uv+vec2(-r2*.707,r2*.707))+flare169(uv+vec2(r2*.707,-r2*.707))+flare169(uv+vec2(-r2*.707,-r2*.707)))/8.0;
+  vec3 b1=(flare169(uv+vec2(r1,0.0))+flare169(uv-vec2(r1,0.0))+flare169(uv+vec2(0.0,r1))+flare169(uv-vec2(0.0,r1)))/4.0;
+  vec3 b2=(flare169(uv+vec2(r2*.707,r2*.707))+flare169(uv+vec2(-r2*.707,r2*.707))+flare169(uv+vec2(r2*.707,-r2*.707))+flare169(uv+vec2(-r2*.707,-r2*.707)))/4.0;
   vec3 layered=sharp*.48+b1*.31+b2*.15;
   float alive=max(layered.r,max(layered.g,layered.b));if(alive<.00012)discard;
   vec3 rgb=layered*max(vColor,vec3(0.0))*vStrength*vGain*vVisible;

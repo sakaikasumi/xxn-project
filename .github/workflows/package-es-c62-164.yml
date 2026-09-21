@@ -1,0 +1,39 @@
+name: Package ES c62.164 artifacts
+
+on:
+  push:
+    branches:
+      - artifact-es-c62-164
+    paths:
+      - .github/workflows/package-es-c62-164.yml
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out generated artifacts
+        uses: actions/checkout@v4
+        with:
+          ref: artifact-es-c62-164
+
+      - name: Verify generated files
+        run: |
+          test -s artifacts/ES_c62.164_BloomRoute_SourcePulse.html
+          test -s artifacts/ES_c62.164_BloomRoute_SourcePulse.txt
+          test -s artifacts/ES_c62.164_Checks.json
+          cmp artifacts/ES_c62.164_BloomRoute_SourcePulse.html artifacts/ES_c62.164_BloomRoute_SourcePulse.txt
+
+      - name: Upload downloadable bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ES_c62.164_BloomRoute_SourcePulse
+          path: |
+            artifacts/ES_c62.164_BloomRoute_SourcePulse.html
+            artifacts/ES_c62.164_BloomRoute_SourcePulse.txt
+            artifacts/ES_c62.164_Checks.json
+          if-no-files-found: error
+          compression-level: 6
+          retention-days: 7

@@ -1,0 +1,74 @@
+name: ES c62.165 appearance-only build
+on:
+  push:
+    branches: [artifact-es-c62-165]
+    paths:
+      - tools/build-es-c62-165.mjs
+      - tools/test-es-c62-165.mjs
+      - tools/flare-appearance-165.js
+      - .github/workflows/build-es-c62-165.yml
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: artifact-es-c62-165
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Prepare isolated shader test harness
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tools/test-es-c62-165.mjs')
+          s=p.read_text()
+          a='\\n${spec.oldFactory'
+          b='\\ntry{${browserCode}'
+          if a in s and b in s:
+              assert s.count(a)==1 and s.count(b)==1
+              s=s.replace(a,'\\ntry{${spec.oldFactory',1).replace(b,'\\n${browserCode}',1)
+              p.write_text(s)
+          PY
+          node --check tools/build-es-c62-165.mjs
+          node --check tools/test-es-c62-165.mjs
+          node --check tools/flare-appearance-165.js
+      - name: Install bounded test dependencies
+        run: npm install --no-save --no-package-lock acorn@8.15.0 playwright@1.55.0
+      - name: Build full HTML and verify unchanged timing, anchors and audio
+        run: node tools/build-es-c62-165.mjs
+      - name: Prepare Chromium software WebGL
+        run: npx playwright install --with-deps chromium
+      - name: Run real browser shader and depth tests
+        run: node tools/test-es-c62-165.mjs
+      - name: Record artifacts on this branch only
+        run: |
+          git config user.name 'ES artifact builder'
+          git config user.email 'es-artifact-builder@users.noreply.github.com'
+          git add artifacts/ES_c62.165_FlareAppearance.html artifacts/ES_c62.165_FlareAppearance.txt artifacts/ES_c62.165_Checks.json artifacts/appearance-comparison tools/test-es-c62-165.mjs
+          git commit -m 'Build c62.165 appearance-only files and verified GPU results' || test -z "$(git status --porcelain --untracked-files=no)"
+          git push origin HEAD:artifact-es-c62-165
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ES_c62.165_FlareAppearance
+          path: |
+            artifacts/ES_c62.165_FlareAppearance.html
+            artifacts/ES_c62.165_FlareAppearance.txt
+            artifacts/ES_c62.165_Checks.json
+          compression-level: 6
+          retention-days: 14
+          if-no-files-found: error
+      - name: Retain isolated comparison previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ES_c62.165_IsolatedTests
+          path: |
+            artifacts/appearance-comparison
+            artifacts/ES_c62.165_Checks.json
+          compression-level: 6
+          retention-days: 7
+          if-no-files-found: ignore

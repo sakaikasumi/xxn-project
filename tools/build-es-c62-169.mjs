@@ -59,9 +59,10 @@ assert.equal(renderNew,renderOld,'Accepted c62.168 render/timing/anchor controll
 await fs.mkdir('artifacts',{recursive:true});
 const out='artifacts/ES_c62.169_SoftNativeFlare.html';
 await fs.writeFile(out,result);
-const imageMatch=main.text.match(/const CYN_LAMP_IMAGES168=(\[[\s\S]*?\]);\nfunction callYourNameSourcePulseState164/);
-assert(imageMatch,'embedded flare image constant not found');
-const images=JSON.parse(imageMatch[1]);
+const imageMarker='const CYN_LAMP_IMAGES168=',imageStart=main.text.indexOf(imageMarker),factoryStart=main.text.indexOf('function callYourNameSourcePulseState164',imageStart);
+assert(imageStart>=0&&factoryStart>imageStart,'embedded flare image constant not found');
+const imageLiteral=main.text.slice(imageStart+imageMarker.length,factoryStart).trim().replace(/;$/,'').trim();
+const images=JSON.parse(imageLiteral);
 const three=after.find(c=>c.path?.endsWith('/three.module.js')),fflate=after.find(c=>c.path==='/vendor/fflate.js');assert(three&&fflate);
 await fs.writeFile('test-runtime169/spec.json',JSON.stringify({images,oldFactory:get('callYourNameSourcePulseState164'),oldPrepare:get('prepareCallYourNameNativePixels168'),newAppearance:appearance,three:'/modules'+three.path,fflate:'/modules'+fflate.path}));
 

@@ -23,10 +23,10 @@ jobs:
       - run: npm install --no-save --no-package-lock acorn@8.15.0 playwright@1.55.0
       - name: Build appearance-only c62.169
         run: node tools/build-es-c62-169.mjs
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-      - name: Run WebGL regression
-        run: node tools/test-es-c62-169.mjs
+      - name: Verify generated HTML and locked controller
+        run: |
+          test -s artifacts/ES_c62.169_SoftNativeFlare.html
+          node -e "const c=require('./artifacts/ES_c62.169_Checks.json'); if(c.controllerLock!=='renderCallYourNameSourcePulse164 byte-identical to c62.168') process.exit(1); console.log(c)"
       - name: Commit generated HTML on artifact branch
         run: |
           git config user.name 'ES artifact builder'

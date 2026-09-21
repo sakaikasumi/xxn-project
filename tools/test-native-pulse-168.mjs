@@ -30,7 +30,7 @@ prepare();q.rows168[0].entry.setting.LensFlareEffectAngle=45;prepareCallYourName
 prepare(18);const overlap=metrics(draw(q));check('Overlapping original flares remain finite',overlap.bad===0&&overlap.min>=0&&overlap.sum>nm.sum,overlap);
 // Exact c62.167 top-edge component: the old floor mask remains bright when q.y reaches 1,
 // because edge was applied only to wallShape. This must not be mistaken for missing texture alpha.
-const y=.9999,edgeLeak=.30*Math.exp(-(y+.42)**2*2.8)+.26*Math.exp(-(y+.10)**2*.76)+.16*Math.exp(-(y-.18)**2*.34);check('c62.167 floor-edge discontinuity reproduced numerically',edgeLeak>.2,edgeLeak);
+const y=.9999,edgeLeak=.30*Math.exp(-((y+.42)**2)*2.8)+.26*Math.exp(-((y+.10)**2)*.76)+.16*Math.exp(-((y-.18)**2)*.34);check('c62.167 floor-edge discontinuity reproduced numerically',edgeLeak>.2,edgeLeak);
 check('No shader compile errors',shaderErrors.length===0,shaderErrors);check('No WebGL error',renderer.getContext().getError()===0);
 window.result168={tests,oldMetrics:om,nativeMetrics:nm,overlap,scope:'actual embedded Three.js, actual decoded original flare images, controlled synthetic depth. Not a complete in-game MV replay.'};
 const cp=new THREE.ShaderMaterial({uniforms:{map:{value:target.texture}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=vec4(position,1.0);}',fragmentShader:'uniform sampler2D map;varying vec2 v;void main(){vec3 c=texture2D(map,v).rgb;gl_FragColor=vec4(pow(clamp(c,0.,1.),vec3(1./2.2)),1.);}',depthTest:false,depthWrite:false}),sc=new THREE.Scene(),ca=new THREE.Camera();sc.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),cp));prepare(9);draw(q);renderer.setRenderTarget(null);renderer.render(sc,ca);

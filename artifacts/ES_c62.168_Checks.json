@@ -1,0 +1,204 @@
+{
+  "version": "c62.168",
+  "bytes": 25399612,
+  "sha256": "474c366558817a5db6fb9f828d7345edd59e3b8be5dea7df440077f17ba0fc08",
+  "baseline": "accepted c62.164 trigger/anchor implementation",
+  "unchangedFunctions": 1300,
+  "unchangedScripts": 58,
+  "syntaxScripts": 44,
+  "controllerLock": "Exact after two appearance hooks and removal of the obsolete visual centre offset; no event, threshold, clock, source selection, audio or global Bloom changes",
+  "images": [
+    {
+      "name": "EffectAtlas_mv322_Lens",
+      "id": "-8694977864441859087",
+      "file": "CAB-16ba2a037cccd65abfe64d14f05bb87f",
+      "bundle": "3dlive/livesceneassets/mv322_callyourname",
+      "bundleSHA256": "a7bcd0ecb9aa766876eefb1c2d7ba17d52b58736a0f050eb14e19d330862bbb5",
+      "size": [
+        512,
+        512
+      ],
+      "pixelSHA256": "315acce5087551733533e72dcce8e4c6879b792f0ca35c10e502023f4f76eebf",
+      "textureMeta": {
+        "name": "EffectAtlas_mv322",
+        "colorSpace": 1
+      }
+    },
+    {
+      "name": "Flare",
+      "id": "-535339950745209689",
+      "rect": {
+        "x": 384,
+        "y": 640,
+        "width": 384,
+        "height": 384
+      },
+      "texture": {
+        "m_FileID": 0,
+        "m_PathID": 3612816198812415000
+      },
+      "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+      "bundle": "3dlive/livescenes/common/allstage",
+      "size": [
+        384,
+        384
+      ],
+      "png": "Flare.png",
+      "pixelSHA256": "9c531e0575694734f5504e6c2847f63ca417c1ad8aaab57f11101c3e47fc5e52",
+      "textureMeta": {
+        "colorSpace": 1,
+        "name": "EffectAtlas"
+      }
+    }
+  ],
+  "originalPixelsSHA256Verified": true,
+  "noProceduralShapeFallback": true,
+  "gpu": {
+    "tests": [
+      {
+        "name": "HDR framebuffer available",
+        "pass": true
+      },
+      {
+        "name": "Appearance preparation leaves all accepted pulse input attributes unchanged",
+        "pass": true
+      },
+      {
+        "name": "Both original images are present",
+        "pass": true
+      },
+      {
+        "name": "Zero RGBA guard border / EffectAtlas_mv322_Lens",
+        "pass": true
+      },
+      {
+        "name": "Zero RGBA guard border / Flare",
+        "pass": true
+      },
+      {
+        "name": "Original sprite outputs visible HDR light",
+        "pass": true,
+        "detail": {
+          "sum": 3257.3811086884198,
+          "peak": 8,
+          "saturated": 508,
+          "bad": 0,
+          "min": 0
+        }
+      },
+      {
+        "name": "No nonfinite or negative source pixels",
+        "pass": true,
+        "detail": {
+          "sum": 3257.3811086884198,
+          "peak": 8,
+          "saturated": 508,
+          "bad": 0,
+          "min": 0
+        }
+      },
+      {
+        "name": "Sprite image replaces the wide white mask",
+        "pass": true,
+        "detail": {
+          "old": {
+            "sum": 30384.407391900313,
+            "peak": 4.679555416107178,
+            "saturated": 11118,
+            "bad": 0,
+            "min": 0
+          },
+          "new": {
+            "sum": 3257.3811086884198,
+            "peak": 8,
+            "saturated": 508,
+            "bad": 0,
+            "min": 0
+          }
+        }
+      },
+      {
+        "name": "Source hidden behind foreground suppresses the whole flare",
+        "pass": true
+      },
+      {
+        "name": "Visible source remains lit with depth enabled",
+        "pass": true
+      },
+      {
+        "name": "Optical lower rays are not cut off by treating floor as billboard intersection",
+        "pass": true,
+        "detail": 636.7670945349322
+      },
+      {
+        "name": "Additive pass cannot make black blocks",
+        "pass": true,
+        "detail": 0.125
+      },
+      {
+        "name": "Accepted zero pulse still produces no light",
+        "pass": true
+      },
+      {
+        "name": "Unresolved setting falls back to actual MV322 pixels, never generated shape",
+        "pass": true
+      },
+      {
+        "name": "Generic native Flare is selectable",
+        "pass": true
+      },
+      {
+        "name": "Native image angle is applied",
+        "pass": true,
+        "detail": 1316.286824174335
+      },
+      {
+        "name": "Overlapping original flares remain finite",
+        "pass": true,
+        "detail": {
+          "sum": 58325.80785173118,
+          "peak": 9.292174339294434,
+          "saturated": 13893,
+          "bad": 0,
+          "min": 0
+        }
+      },
+      {
+        "name": "c62.167 floor-edge discontinuity reproduced numerically",
+        "pass": true,
+        "detail": 0.2320426869299912
+      },
+      {
+        "name": "No shader compile errors",
+        "pass": true,
+        "detail": []
+      },
+      {
+        "name": "No WebGL error",
+        "pass": true
+      }
+    ],
+    "oldMetrics": {
+      "sum": 30384.407391900313,
+      "peak": 4.679555416107178,
+      "saturated": 11118,
+      "bad": 0,
+      "min": 0
+    },
+    "nativeMetrics": {
+      "sum": 3257.3811086884198,
+      "peak": 8,
+      "saturated": 508,
+      "bad": 0,
+      "min": 0
+    },
+    "overlap": {
+      "sum": 58325.80785173118,
+      "peak": 9.292174339294434,
+      "saturated": 13893,
+      "bad": 0,
+      "min": 0
+    },
+    "scope": "actual embedded Three.js, actual decoded original flare images, controlled synthetic depth. Not a complete in-game MV replay."
+  }
+}

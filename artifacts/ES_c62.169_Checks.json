@@ -1,0 +1,13 @@
+{
+  "version": "c62.169",
+  "bytes": 25400755,
+  "sha256": "6ceed73e75d0c22e1d1f696eb15bb06646bf26dd4beaded95d5363b3b9590588",
+  "baselineSHA256": "474c366558817a5db6fb9f828d7345edd59e3b8be5dea7df440077f17ba0fc08",
+  "unchangedFunctions": 1302,
+  "unchangedScripts": 58,
+  "syntaxScripts": 44,
+  "controllerLock": "renderCallYourNameSourcePulse164 byte-identical to c62.168",
+  "audioLock": "all unrelated scripts and functions byte-identical; c62.162 embedded worker retained",
+  "change": "compress duplicate optical gain and add two texture-derived blur layers around the original Sprite pixels",
+  "gpu": "pending"
+}

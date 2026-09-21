@@ -1,0 +1,47 @@
+{
+  "sourceURL": "https://assets.boysm.hekk.org/asset_bundles/Android/3dlive/livesceneassets/mv322_callyourname.bundle.381211ef4c2560102f7f173f3e8720d8",
+  "sprites": [
+    {
+      "name": "Flare",
+      "id": "-535339950745209689",
+      "rect": {
+        "x": 384.0,
+        "y": 640.0,
+        "width": 384.0,
+        "height": 384.0
+      },
+      "texture": {
+        "m_FileID": 0,
+        "m_PathID": 3612816198812415143
+      },
+      "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+      "bundle": "3dlive/livescenes/common/allstage",
+      "size": [
+        384,
+        384
+      ],
+      "png": "Flare.png",
+      "pixelSHA256": "9c531e0575694734f5504e6c2847f63ca417c1ad8aaab57f11101c3e47fc5e52",
+      "textureMeta": {
+        "colorSpace": 1,
+        "name": "EffectAtlas"
+      }
+    },
+    {
+      "name": "EffectAtlas_mv322_Lens",
+      "id": "-8694977864441859087",
+      "file": "CAB-16ba2a037cccd65abfe64d14f05bb87f",
+      "bundle": "3dlive/livesceneassets/mv322_callyourname",
+      "bundleSHA256": "a7bcd0ecb9aa766876eefb1c2d7ba17d52b58736a0f050eb14e19d330862bbb5",
+      "size": [
+        512,
+        512
+      ],
+      "pixelSHA256": "315acce5087551733533e72dcce8e4c6879b792f0ca35c10e502023f4f76eebf",
+      "textureMeta": {
+        "name": "EffectAtlas_mv322",
+        "colorSpace": 1
+      }
+    }
+  ]
+}

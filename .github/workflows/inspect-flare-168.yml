@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install UnityPy==1.24.0
+      - run: pip install UnityPy==1.25.3
       - run: python tools/inspect-flare-168.py
       - name: Save evidence without changing main or viewer
         if: always()

@@ -2,13 +2,13 @@ name: ES168 original flare inspection
 on:
   push:
     branches: [artifact-es-c62-168]
-    paths: [tools/common-flare-168.py, .github/workflows/inspect-flare-168.yml]
+    paths: [tools/mv322-flare-168.py, .github/workflows/inspect-flare-168.yml]
 permissions:
   contents: write
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,12 +17,12 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install UnityPy==1.25.3
-      - run: python tools/common-flare-168.py
+      - run: python tools/mv322-flare-168.py
       - name: Save evidence without changing main or viewer
         if: always()
         run: |
           git config user.name 'ES artifact builder'
           git config user.email 'es-artifact-builder@users.noreply.github.com'
           git add artifacts/flare168
-          git commit -m 'Record original shared flare sprite data' || true
+          git commit -m 'Record MV322 authored flare image and references' || true
           git push origin HEAD:artifact-es-c62-168

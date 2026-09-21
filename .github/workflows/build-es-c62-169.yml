@@ -31,7 +31,7 @@ jobs:
         run: |
           git config user.name 'ES artifact builder'
           git config user.email 'es-artifact-builder@users.noreply.github.com'
-          git add artifacts/ES_c62.169_SoftNativeFlare.html artifacts/ES_c62.169_Checks.json artifacts/appearance169
+          git add artifacts/ES_c62.169_SoftNativeFlare.html artifacts/ES_c62.169_Checks.json
           git commit -m 'Build c62.169 softer native flare' || true
           git push origin HEAD:artifact-es-c62-169
       - uses: actions/upload-artifact@v4

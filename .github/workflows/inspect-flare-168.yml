@@ -2,7 +2,7 @@ name: ES168 original flare inspection
 on:
   push:
     branches: [artifact-es-c62-168]
-    paths: [tools/inspect-flare-168.py, tools/flare-detail-168.py, .github/workflows/inspect-flare-168.yml]
+    paths: [tools/common-flare-168.py, .github/workflows/inspect-flare-168.yml]
 permissions:
   contents: write
 jobs:
@@ -17,14 +17,12 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install UnityPy==1.25.3
-      - run: python tools/flare-detail-168.py
+      - run: python tools/common-flare-168.py
       - name: Save evidence without changing main or viewer
         if: always()
         run: |
           git config user.name 'ES artifact builder'
           git config user.email 'es-artifact-builder@users.noreply.github.com'
-          if test -d artifacts/flare168; then
-            git add artifacts/flare168
-            git commit -m 'Record compact original flare settings' || true
-            git push origin HEAD:artifact-es-c62-168
-          fi
+          git add artifacts/flare168
+          git commit -m 'Record original shared flare sprite data' || true
+          git push origin HEAD:artifact-es-c62-168

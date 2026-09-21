@@ -59,10 +59,8 @@ assert.equal(renderNew,renderOld,'Accepted c62.168 render/timing/anchor controll
 await fs.mkdir('artifacts',{recursive:true});
 const out='artifacts/ES_c62.169_SoftNativeFlare.html';
 await fs.writeFile(out,result);
-const imageMarker='const CYN_LAMP_IMAGES168=',imageStart=main.text.indexOf(imageMarker),factoryStart=main.text.indexOf('function callYourNameSourcePulseState164',imageStart);
-assert(imageStart>=0&&factoryStart>imageStart,'embedded flare image constant not found');
-const imageLiteral=main.text.slice(imageStart+imageMarker.length,factoryStart).trim().replace(/;$/,'').trim();
-const images=JSON.parse(imageLiteral);
+const images=JSON.parse(await fs.readFile('artifacts/flare168/mv322-pack.json','utf8')).filter(x=>['Flare','EffectAtlas_mv322_Lens'].includes(x.name)).sort((a,b)=>a.name.localeCompare(b.name));
+assert.equal(images.length,2,'verified embedded flare source images missing');
 const three=after.find(c=>c.path?.endsWith('/three.module.js')),fflate=after.find(c=>c.path==='/vendor/fflate.js');assert(three&&fflate);
 await fs.writeFile('test-runtime169/spec.json',JSON.stringify({images,oldFactory:get('callYourNameSourcePulseState164'),oldPrepare:get('prepareCallYourNameNativePixels168'),newAppearance:appearance,three:'/modules'+three.path,fflate:'/modules'+fflate.path}));
 

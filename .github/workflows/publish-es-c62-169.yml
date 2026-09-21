@@ -1,0 +1,23 @@
+name: Publish ES c62.169 HTML
+on:
+  push:
+    branches: [artifact-es-c62-169]
+    paths:
+      - .github/workflows/publish-es-c62-169.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: artifact-es-c62-169
+      - name: Verify generated HTML
+        run: test -s artifacts/ES_c62.169_SoftNativeFlare.html
+      - name: Publish direct-download release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete es-c62.169 --yes --cleanup-tag 2>/dev/null || true
+          gh release create es-c62.169 artifacts/ES_c62.169_SoftNativeFlare.html             --target artifact-es-c62-169             --title "ES c62.169 Soft Native Flare"             --notes "Single HTML test build for CALL YOUR NAME!! flare refinement."

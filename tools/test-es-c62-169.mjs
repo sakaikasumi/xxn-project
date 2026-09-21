@@ -50,10 +50,12 @@ const server=http.createServer(async(req,res)=>{try{const file=path.resolve(root
 await new Promise(ok=>server.listen(0,'127.0.0.1',ok));let browser;
 try{
  browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
- const page=await browser.newPage({viewport:{width:256,height:160}});
- await page.goto('http://127.0.0.1:'+server.address().port+'/harness.html');
- await page.waitForFunction(()=>window.result169||window.failure169,null,{timeout:60000});
- const a=await page.evaluate(()=>({result:window.result169,error:window.failure169}));assert(!a.error,a.error);assert(a.result.tests.every(x=>x.pass));
+ const page=await browser.newPage({viewport:{width:256,height:160}}),pageErrors=[],consoleErrors=[];
+ page.on('pageerror',e=>pageErrors.push(String(e.stack||e)));page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text())});
+ await page.goto('http://127.0.0.1:'+server.address().port+'/harness.html',{waitUntil:'load'});
+ await page.waitForTimeout(5000);
+ const a=await page.evaluate(()=>({result:window.result169,error:window.failure169,html:document.body.innerText.slice(0,1000)}));
+ assert(!a.error,a.error);assert(a.result,'No test result. pageErrors='+pageErrors.join(' | ')+' console='+consoleErrors.join(' | ')+' html='+a.html);assert(a.result.tests.every(x=>x.pass));
  await fs.mkdir('artifacts/appearance169',{recursive:true});await page.screenshot({path:'artifacts/appearance169/c62.169-soft-flare.png'});
  const c=JSON.parse(await fs.readFile('artifacts/ES_c62.169_Checks.json','utf8'));c.gpu=a.result;await fs.writeFile('artifacts/ES_c62.169_Checks.json',JSON.stringify(c,null,2));console.log(JSON.stringify(a.result,null,2));
 }finally{await browser?.close();await new Promise(ok=>server.close(ok));}

@@ -8,7 +8,7 @@ const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const blob=crypto.createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 assert.equal(blob,'094fba263722fa5a0bb5e11161f44162fbeda809','Accepted c62.164 baseline only');
 const html=bytes.toString('utf8');
-function scripts(text){const out=[];for(const m of text.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi))out.push({attrs:m[1],text:m[2],start:m.index+m[0].indexOf('>')+1,path:(m[1].match(/data-es-path="([^"]+)"/)||[])[1]});return out;}
+function scripts(text){const out=[];for(const m of text.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi))out.push({attrs:m[1],text:m[2],start:m.index+m[0].indexOf('>')+1,path:(m[1].match(/data-es-path="([^"]+)"/)||[])[1],type:((m[1].match(/\btype=["']([^"']+)["']/)||[])[1]||'').toLowerCase()});return out;}
 function functions(text){return new Map(acorn.parse(text,{ecmaVersion:'latest',sourceType:'module'}).body.filter(x=>x.type==='FunctionDeclaration').map(x=>[x.id.name,x]));}
 const chunks=scripts(html),main=chunks.find(x=>x.text.includes('function callYourNameSourcePulseState164(live)'));assert(main);
 const funcs=functions(main.text),fn=name=>{const n=funcs.get(name);assert(n,name);return main.text.slice(n.start,n.end);};
@@ -26,16 +26,15 @@ const newFuncs=functions(text),changed=new Set(edits.map(e=>e.id.name));let lock
 for(const [name]of funcs){if(changed.has(name))continue;const n=newFuncs.get(name);assert(n);assert.equal(text.slice(n.start,n.end),fn(name),'Unexpected change: '+name);lockedFunctions++;}
 let result=html.slice(0,main.start)+text+html.slice(main.start+main.text.length);
 result='<!-- c62.165: appearance-only on accepted c62.164. Exact emitter/time/audio/Bloom locks; native flare sprite, narrow-core multi-ray fallback if unavailable. -->\n'+result;
-const newChunks=scripts(result);let parsed=0,unchangedModules=0;
+const newChunks=scripts(result);let parsed=0,unchangedModules=0;const jsTypes=new Set(['','module','text/javascript','application/javascript','application/x-es-module']);
 assert.equal(newChunks.length,chunks.length);
 for(let i=0;i<chunks.length;i++){
  const a=chunks[i],b=newChunks[i];assert(b&&a.attrs===b.attrs,'Script structure');if(a!==main){assert.equal(b.text,a.text,'Unrelated script changed');unchangedModules++;}
- if(/application\/json|importmap|application\/x-es-binary/i.test(a.attrs))continue;
- if(a.path||!/type\s*=/.test(a.attrs)||/type=["']module["']/.test(a.attrs)){acorn.parse(b.text,{ecmaVersion:'latest',sourceType:'module',allowReturnOutsideFunction:true});parsed++;}
+ if(jsTypes.has(a.type)){try{acorn.parse(b.text,{ecmaVersion:'latest',sourceType:'module',allowReturnOutsideFunction:true});parsed++;}catch(e){throw new Error('JS verification failed for '+a.attrs+': '+e.message);}}
 }
 assert(result.includes('audio-only hotfix on c62.161'),'Audio marker');
 await fs.mkdir('artifacts',{recursive:true});await fs.mkdir('test-runtime165/modules',{recursive:true});
-for(const c of newChunks.filter(x=>x.path)){
+for(const c of newChunks.filter(x=>x.path&&jsTypes.has(x.type))){
  assert(!c.path.split('/').includes('..'));const dest=path.join('test-runtime165/modules',c.path.replace(/^\//,''));await fs.mkdir(path.dirname(dest),{recursive:true});await fs.writeFile(dest,c.text.replaceAll('es-file:/','/modules/'));
 }
 const three=newChunks.find(c=>c.path?.endsWith('/three.module.js'))||newChunks.find(c=>c.path&&/\/three(?:\.min)?\.m?js$/.test(c.path));assert(three,'Embedded Three module');

@@ -1,0 +1,1173 @@
+{
+  "recordCount": 253,
+  "settings": {
+    "": {
+      "count": 20,
+      "examples": [
+        {
+          "id": "581",
+          "IsLensFlareEnabled": 0,
+          "LensFlareSpriteName": "",
+          "LensFlareLightnessMultiplier": 0.0,
+          "LensFlareEffectScale": 0.0,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 0.0
+        },
+        {
+          "id": "582",
+          "IsLensFlareEnabled": 0,
+          "LensFlareSpriteName": "",
+          "LensFlareLightnessMultiplier": 0.0,
+          "LensFlareEffectScale": 0.0,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 0.0
+        },
+        {
+          "id": "585",
+          "IsLensFlareEnabled": 0,
+          "LensFlareSpriteName": "",
+          "LensFlareLightnessMultiplier": 0.0,
+          "LensFlareEffectScale": 0.0,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 0.0
+        },
+        {
+          "id": "590",
+          "IsLensFlareEnabled": 0,
+          "LensFlareSpriteName": "",
+          "LensFlareLightnessMultiplier": 1.0,
+          "LensFlareEffectScale": 1.0,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 1.0
+        }
+      ]
+    },
+    "EffectAtlas_mv322/EffectAtlas_mv322_Lens": {
+      "count": 22,
+      "examples": [
+        {
+          "id": "583",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas_mv322/EffectAtlas_mv322_Lens",
+          "LensFlareLightnessMultiplier": 0.5,
+          "LensFlareEffectScale": 0.2800000011920929,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 3.0
+        },
+        {
+          "id": "584",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas_mv322/EffectAtlas_mv322_Lens",
+          "LensFlareLightnessMultiplier": 7.1495866775512695,
+          "LensFlareEffectScale": 0.614958643913269,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 8.0
+        },
+        {
+          "id": "587",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas_mv322/EffectAtlas_mv322_Lens",
+          "LensFlareLightnessMultiplier": 0.5,
+          "LensFlareEffectScale": 0.2800000011920929,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 3.0
+        },
+        {
+          "id": "589",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas_mv322/EffectAtlas_mv322_Lens",
+          "LensFlareLightnessMultiplier": 4.0,
+          "LensFlareEffectScale": 0.30000001192092896,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 8.0
+        }
+      ]
+    },
+    "EffectAtlas/Flare": {
+      "count": 8,
+      "examples": [
+        {
+          "id": "586",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas/Flare",
+          "LensFlareLightnessMultiplier": 1.0,
+          "LensFlareEffectScale": 0.4000000059604645,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 3.0
+        },
+        {
+          "id": "588",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas/Flare",
+          "LensFlareLightnessMultiplier": 1.0,
+          "LensFlareEffectScale": 0.30000001192092896,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 6.0
+        },
+        {
+          "id": "602",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas/Flare",
+          "LensFlareLightnessMultiplier": 1.0,
+          "LensFlareEffectScale": 0.30000001192092896,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 6.0
+        },
+        {
+          "id": "603",
+          "IsLensFlareEnabled": 1,
+          "LensFlareSpriteName": "EffectAtlas/Flare",
+          "LensFlareLightnessMultiplier": 1.5,
+          "LensFlareEffectScale": 0.800000011920929,
+          "LensFlareEffectAngle": 0.0,
+          "SourceLightnessMultiplier": 6.0
+        }
+      ]
+    }
+  },
+  "atlas": [
+    {
+      "id": "3893",
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 526
+      },
+      "m_Name": "",
+      "_shader": {
+        "m_FileID": 5,
+        "m_PathID": -7046095076826261982
+      },
+      "_atlasName": "LensFlareAtlas_mv322"
+    }
+  ],
+  "ownerExamples": [
+    {
+      "id": "3484",
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 78
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 58
+      },
+      "m_Name": "",
+      "_rotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 1360
+      },
+      "_horizontalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "_verticalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "SourceView": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "LensFlareView": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "BeamView": {
+        "m_FileID": 0,
+        "m_PathID": 3435
+      },
+      "IsRotationEnabled": 1,
+      "_lookAtTarget": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "id": "3617",
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 225
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 58
+      },
+      "m_Name": "",
+      "_rotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 1636
+      },
+      "_horizontalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "_verticalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "SourceView": {
+        "m_FileID": 0,
+        "m_PathID": 3580
+      },
+      "LensFlareView": {
+        "m_FileID": 0,
+        "m_PathID": 3621
+      },
+      "BeamView": {
+        "m_FileID": 0,
+        "m_PathID": 3784
+      },
+      "IsRotationEnabled": 1,
+      "_lookAtTarget": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "id": "3733",
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 342
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 58
+      },
+      "m_Name": "",
+      "_rotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 1594
+      },
+      "_horizontalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "_verticalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "SourceView": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "LensFlareView": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "BeamView": {
+        "m_FileID": 0,
+        "m_PathID": 3652
+      },
+      "IsRotationEnabled": 1,
+      "_lookAtTarget": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "id": "3801",
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 417
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 58
+      },
+      "m_Name": "",
+      "_rotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 1739
+      },
+      "_horizontalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "_verticalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "SourceView": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "LensFlareView": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "BeamView": {
+        "m_FileID": 0,
+        "m_PathID": 3791
+      },
+      "IsRotationEnabled": 1,
+      "_lookAtTarget": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "id": "3933",
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 574
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 58
+      },
+      "m_Name": "",
+      "_rotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 1638
+      },
+      "_horizontalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "_verticalRotationTransform": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "SourceView": {
+        "m_FileID": 0,
+        "m_PathID": 3531
+      },
+      "LensFlareView": {
+        "m_FileID": 0,
+        "m_PathID": 3777
+      },
+      "BeamView": {
+        "m_FileID": 0,
+        "m_PathID": 3472
+      },
+      "IsRotationEnabled": 1,
+      "_lookAtTarget": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    }
+  ],
+  "commonBundles": [
+    {
+      "row": [
+        "3dlive/common/model",
+        "572f6ce017eaf56b3e4bb01fdf970a22",
+        11178763,
+        4071762392
+      ],
+      "fetchFailures": [
+        "HTTP Error 403: Forbidden"
+      ],
+      "sha256": "b61c722feb93ad9beb9016b9ac5408284e5eeb2059a6a7479c01cd7478cfb9ec",
+      "sprites": [
+        {
+          "id": "-6858753292953062894",
+          "name": "Namida_Base_Tex_Height",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -5929887491379695086
+          },
+          "file": "CAB-fe68822e241939183819a62abd5fd3bd"
+        },
+        {
+          "id": "-5882853624410501940",
+          "name": "Glass_MatCap",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 320.0,
+            "height": 320.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -1229372627693826868
+          },
+          "file": "CAB-fe68822e241939183819a62abd5fd3bd"
+        },
+        {
+          "id": "-5672923903847358753",
+          "name": "NamidaDrop_Base_Tex_Height",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 8653524113243184863
+          },
+          "file": "CAB-fe68822e241939183819a62abd5fd3bd"
+        },
+        {
+          "id": "3947972424184741597",
+          "name": "BillBoardFace_Shadow",
+          "rect": {
+            "x": 7.063066482543945,
+            "y": 199.0761260986328,
+            "width": 44.910179138183594,
+            "height": 42.847747802734375
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -3695248240736682275
+          },
+          "file": "CAB-fe68822e241939183819a62abd5fd3bd"
+        }
+      ],
+      "atlases": [],
+      "textures": []
+    },
+    {
+      "row": [
+        "3dlive/livescenes/common/allstage",
+        "b88d1e6567770c4b275e121771f5fd05",
+        1575787,
+        2821656649
+      ],
+      "fetchFailures": [
+        "HTTP Error 403: Forbidden"
+      ],
+      "sha256": "f3fc1b1ac8985fc792468d3e47fdc34c788d119fb417a1edad01981a382ab60c",
+      "sprites": [
+        {
+          "id": "-7945272795778992985",
+          "name": "LaserBeamSpot",
+          "rect": {
+            "x": 768.0,
+            "y": 190.0,
+            "width": 128.0,
+            "height": 128.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "-7493200536472420518",
+          "name": "sun",
+          "rect": {
+            "x": 1024.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "-6368248412293319513",
+          "name": "LaserBeamGlow",
+          "rect": {
+            "x": 988.0,
+            "y": 86.0,
+            "width": 32.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LaserBeamGlow_-6368248412293319513.png",
+          "size": [
+            32,
+            512
+          ],
+          "pixelSHA256": "6e9d2d602f00b8db84dcc3dc17a75ccfc519a8591c3a5a7cdaa9dd8b94a8eeac"
+        },
+        {
+          "id": "-5355165749848866982",
+          "name": "iris9_hard_blur",
+          "rect": {
+            "x": 512.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "-4653911532558895961",
+          "name": "SpotLightCenter",
+          "rect": {
+            "x": 768.0,
+            "y": 318.0,
+            "width": 188.0,
+            "height": 450.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "SpotLightCenter_-4653911532558895961.png",
+          "size": [
+            188,
+            450
+          ],
+          "pixelSHA256": "d456436d86d89d1ab24b9b2bf7579662fb6fd5faa3e90d409bc55123834f9ecf"
+        },
+        {
+          "id": "-4492151141943954265",
+          "name": "Flare2",
+          "rect": {
+            "x": 384.0,
+            "y": 256.0,
+            "width": 384.0,
+            "height": 384.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "Flare2_-4492151141943954265.png",
+          "size": [
+            384,
+            384
+          ],
+          "pixelSHA256": "9185c6a1e2c68f01297ca08f17fbd80fc81dc58d5c8d6001cc640b8224fa9c65"
+        },
+        {
+          "id": "-3657144034097122137",
+          "name": "LightBeamFoot",
+          "rect": {
+            "x": 956.0,
+            "y": 598.0,
+            "width": 64.0,
+            "height": 170.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LightBeamFoot_-3657144034097122137.png",
+          "size": [
+            64,
+            170
+          ],
+          "pixelSHA256": "d1fd1a3e9e393c55f1322fda55feda43494f9dbadccd9abd8681c9d45447f173"
+        },
+        {
+          "id": "-2834019222538125478",
+          "name": "rainbow",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "-1890298656390138713",
+          "name": "LightBeamStrip",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 1024.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LightBeamStrip_-1890298656390138713.png",
+          "size": [
+            128,
+            1024
+          ],
+          "pixelSHA256": "1562b2378461f2d86d8b446f84b47d014512a87cf459cd3a53def5c95e325f2d"
+        },
+        {
+          "id": "-1576860054567813286",
+          "name": "iris9_hard",
+          "rect": {
+            "x": 512.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "-564702695422249817",
+          "name": "LightBeamStrip2",
+          "rect": {
+            "x": 128.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 1024.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LightBeamStrip2_-564702695422249817.png",
+          "size": [
+            128,
+            1024
+          ],
+          "pixelSHA256": "880b2bc6278a30dc980a1bfb86e6312252983a28c1c54740a70972f19ae9ea13"
+        },
+        {
+          "id": "-535339950745209689",
+          "name": "Flare",
+          "rect": {
+            "x": 384.0,
+            "y": 640.0,
+            "width": 384.0,
+            "height": 384.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "Flare_-535339950745209689.png",
+          "size": [
+            384,
+            384
+          ],
+          "pixelSHA256": "af3687a831858c89419e47a8862d851ca5cc9f7ebacc50f71b7fc7b8c0e9a449"
+        },
+        {
+          "id": "-370538351009259107",
+          "name": "LightBeamWide",
+          "rect": {
+            "x": 128.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 4889470773089935773
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LightBeamWide_-370538351009259107.png",
+          "size": [
+            256,
+            256
+          ],
+          "pixelSHA256": "14e50a3da69f16612b0a4039a7a6b372c55a0c3630321537333e4c89ffab3b93"
+        },
+        {
+          "id": "-229483432767750310",
+          "name": "iris9_soft",
+          "rect": {
+            "x": 768.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "195965924350004035",
+          "name": "CharacterBodyShadow",
+          "rect": {
+            "x": 0.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 6650466909333326659
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "792332492396199770",
+          "name": "sparkle",
+          "rect": {
+            "x": 512.0,
+            "y": 512.0,
+            "width": 512.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "sparkle_792332492396199770.png",
+          "size": [
+            512,
+            512
+          ],
+          "pixelSHA256": "5880b0f5e6e7f619c4f67b19f9d02725e9b5fd6c191f5e7d862ef61ba050c190"
+        },
+        {
+          "id": "903485071537831770",
+          "name": "iris9_soft_blur",
+          "rect": {
+            "x": 768.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "981898096561496477",
+          "name": "LightBeamellipse",
+          "rect": {
+            "x": 128.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 4889470773089935773
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LightBeamellipse_981898096561496477.png",
+          "size": [
+            128,
+            256
+          ],
+          "pixelSHA256": "6cb49041a415e0bd890b083cbe8216bab5e2ab1751b660a04ef4d0f5e9f7625f"
+        },
+        {
+          "id": "2714292117637857114",
+          "name": "glint",
+          "rect": {
+            "x": 0.0,
+            "y": 512.0,
+            "width": 512.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "2972501378021031770",
+          "name": "iris_half",
+          "rect": {
+            "x": 1024.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "3497154530687759527",
+          "name": "SpotLight",
+          "rect": {
+            "x": 768.0,
+            "y": 768.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "SpotLight_3497154530687759527.png",
+          "size": [
+            256,
+            256
+          ],
+          "pixelSHA256": "c6967285582c3d5466a3f369ac3755c0c773648743d64d6e5387b8df8b466052"
+        },
+        {
+          "id": "5712376803442368925",
+          "name": "SpotLightBeamSlit",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 4889470773089935773
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "SpotLightBeamSlit_5712376803442368925.png",
+          "size": [
+            128,
+            512
+          ],
+          "pixelSHA256": "1b2dac6fa3ab747755684170859146f1092c46cc918e1d77a3a876dc45675935"
+        },
+        {
+          "id": "7235979634693475139",
+          "name": "CharacterFootShadow",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "width": 96.0,
+            "height": 128.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 6650466909333326659
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "7835056160638470979",
+          "name": "CharacterCrossShadow",
+          "rect": {
+            "x": 96.0,
+            "y": 0.0,
+            "width": 64.0,
+            "height": 128.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 6650466909333326659
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "7950354777988510887",
+          "name": "LaserBeam",
+          "rect": {
+            "x": 956.0,
+            "y": 86.0,
+            "width": 32.0,
+            "height": 512.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "8458073537204420442",
+          "name": "iris6_hard",
+          "rect": {
+            "x": 1024.0,
+            "y": 768.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "8473064853646180186",
+          "name": "iris6_soft",
+          "rect": {
+            "x": 1024.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 256.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": -7072463987621068966
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71"
+        },
+        {
+          "id": "9095228848099079335",
+          "name": "LightBeamStrip3",
+          "rect": {
+            "x": 256.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 1024.0
+          },
+          "texture": {
+            "m_FileID": 0,
+            "m_PathID": 3612816198812415143
+          },
+          "file": "CAB-fd0f9aa5ed1417c58310bac8ddb89b71",
+          "png": "LightBeamStrip3_9095228848099079335.png",
+          "size": [
+            128,
+            1024
+          ],
+          "pixelSHA256": "fdc9a7da17755a1a7f3daa6a287a39ecb7b365bdf42174e56ce68acba8a6d8e1"
+        }
+      ],
+      "atlases": [
+        {
+          "id": "-2417089962779779374",
+          "data": {
+            "m_GameObject": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Enabled": 1,
+            "m_Script": {
+              "m_FileID": 0,
+              "m_PathID": 3343779915562432202
+            },
+            "m_Name": "EffectAtlas_old",
+            "Texture": {
+              "m_FileID": 0,
+              "m_PathID": 4889470773089935773
+            },
+            "Sprites": [
+              {
+                "m_FileID": 0,
+                "m_PathID": 981898096561496477
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -370538351009259107
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 5712376803442368925
+              }
+            ]
+          }
+        },
+        {
+          "id": "-1759600912992189213",
+          "data": {
+            "m_GameObject": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Enabled": 1,
+            "m_Script": {
+              "m_FileID": 0,
+              "m_PathID": 3343779915562432202
+            },
+            "m_Name": "FlareAtlas",
+            "Texture": {
+              "m_FileID": 0,
+              "m_PathID": -7072463987621068966
+            },
+            "Sprites": [
+              {
+                "m_FileID": 0,
+                "m_PathID": 2714292117637857114
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 2972501378021031770
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 8458073537204420442
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 8473064853646180186
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -1576860054567813286
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -5355165749848866982
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -229483432767750310
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 903485071537831770
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -2834019222538125478
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 792332492396199770
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -7493200536472420518
+              }
+            ]
+          }
+        },
+        {
+          "id": "-1125565411700325104",
+          "data": {
+            "m_GameObject": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Enabled": 1,
+            "m_Script": {
+              "m_FileID": 0,
+              "m_PathID": 3343779915562432202
+            },
+            "m_Name": "EffectAtlas",
+            "Texture": {
+              "m_FileID": 0,
+              "m_PathID": 3612816198812415143
+            },
+            "Sprites": [
+              {
+                "m_FileID": 0,
+                "m_PathID": -535339950745209689
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -4492151141943954265
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 7950354777988510887
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -6368248412293319513
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -7945272795778992985
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -3657144034097122137
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -1890298656390138713
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -564702695422249817
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 9095228848099079335
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 3497154530687759527
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": -4653911532558895961
+              }
+            ]
+          }
+        },
+        {
+          "id": "-567033900682089827",
+          "data": {
+            "m_GameObject": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Enabled": 1,
+            "m_Script": {
+              "m_FileID": 0,
+              "m_PathID": 3343779915562432202
+            },
+            "m_Name": "CharacterShadowAtlas",
+            "Texture": {
+              "m_FileID": 0,
+              "m_PathID": 6650466909333326659
+            },
+            "Sprites": [
+              {
+                "m_FileID": 0,
+                "m_PathID": 195965924350004035
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 7835056160638470979
+              },
+              {
+                "m_FileID": 0,
+                "m_PathID": 7235979634693475139
+              }
+            ]
+          }
+        }
+      ],
+      "textures": [
+        {
+          "id": "-7072463987621068966",
+          "name": "FlareAtlas",
+          "width": 1280,
+          "height": 1024,
+          "colorSpace": 1
+        },
+        {
+          "id": "3612816198812415143",
+          "name": "EffectAtlas",
+          "width": 1024,
+          "height": 1024,
+          "colorSpace": 1
+        },
+        {
+          "id": "4889470773089935773",
+          "name": "EffectAtlas_old",
+          "width": 512,
+          "height": 512,
+          "colorSpace": 1
+        },
+        {
+          "id": "6650466909333326659",
+          "name": "CharacterShadowAtlas",
+          "width": 256,
+          "height": 256,
+          "colorSpace": 1
+        }
+      ]
+    }
+  ]
+}

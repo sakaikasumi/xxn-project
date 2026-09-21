@@ -1,0 +1,10 @@
+{
+  "sourceBytes": 0,
+  "sourceCharacters": 25177760,
+  "outputCharacters": 25190261,
+  "outputBytes": 25243983,
+  "audioFixRetained": true,
+  "bloomResolverCalls": 4,
+  "newPulseCalls": 2,
+  "oldDirectionalCallActive": false
+}

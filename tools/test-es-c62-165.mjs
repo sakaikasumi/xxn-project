@@ -61,7 +61,7 @@ window.preview('new');
 `;
 const imports={};
 // es-file specifiers are rewritten by the builder. The normal relative Three imports remain intact.
-const pageHtml=`<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#07101b}canvas{display:block}</style><script type="module">import * as THREE from ${JSON.stringify(spec.three)};\n${spec.oldFactory.replace('function callYourNameSourcePulseState164','function baselinePulseState164')}\n${spec.appearance}\ntry{${browserCode}}catch(e){window.testFailure=String(e.stack||e);throw e;}<\/script>`;
+const pageHtml=`<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#07101b}canvas{display:block}</style><script type="module">import * as THREE from ${JSON.stringify(spec.three)};\ntry{${spec.oldFactory.replace('function callYourNameSourcePulseState164','function baselinePulseState164')}\n${spec.appearance}\n${browserCode}}catch(e){window.testFailure=String(e.stack||e);throw e;}<\/script>`;
 await fs.writeFile(path.join(root,'harness.html'),pageHtml);
 const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost'),file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep))throw Error('path');const data=await fs.readFile(file);res.setHeader('Content-Type',file.endsWith('.html')?'text/html; charset=utf-8':file.endsWith('.json')?'application/json':'text/javascript; charset=utf-8');res.end(data);}catch{res.writeHead(404);res.end('not found');}});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));

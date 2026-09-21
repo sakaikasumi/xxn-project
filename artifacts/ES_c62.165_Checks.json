@@ -1,0 +1,197 @@
+{
+  "version": "c62.165",
+  "baselineGitBlob": "094fba263722fa5a0bb5e11161f44162fbeda809",
+  "baselineSHA256": "65cbaed89baeb969eab2ce401bad43a02b1a479845d8cfdbc3f6fd29a4ad7214",
+  "outputSHA256": "c08ecfbe7c8cd624ebaafa65cde13b15cd990dcf70448d0e5eb14bd54839053b",
+  "bytes": 25249254,
+  "htmlTxtIdentical": true,
+  "unchangedFunctions": 1300,
+  "unchangedScripts": 58,
+  "syntaxCheckedScripts": 44,
+  "acceptedControllerByteIdenticalAfterTwoAppearanceHooks": true,
+  "lockedFunctions": [
+    "callYourNameObservedAccent164",
+    "callYourNameSourceStrength164",
+    "callYourNameSourceColor164",
+    "resolveActiveBloom164"
+  ],
+  "audio": "All embedded decoder resources, bootstrap and unrelated functions byte-identical",
+  "spritePolicy": "Current LensFlareSpriteName and loaded atlas when available; explicit narrow-core multi-ray fallback otherwise. Native rendering parity is not claimed.",
+  "gpuTests": {
+    "tests": [
+      {
+        "name": "Float framebuffer support",
+        "pass": true
+      },
+      {
+        "name": "Appearance preparation preserves all accepted input arrays",
+        "pass": true
+      },
+      {
+        "name": "Old white-blob shader reproduced",
+        "pass": true,
+        "detail": {
+          "peak": 5.147511005401611,
+          "sum": 33422.84887707117,
+          "saturated": 11850,
+          "negative": 0,
+          "bad": 0
+        }
+      },
+      {
+        "name": "New fallback produces nonzero light",
+        "pass": true,
+        "detail": {
+          "peak": 12.835341453552246,
+          "sum": 1197.173376379103,
+          "saturated": 78,
+          "negative": 0,
+          "bad": 0
+        }
+      },
+      {
+        "name": "Narrow bright core is retained",
+        "pass": true,
+        "detail": {
+          "old": 5.147511005401611,
+          "new": 12.835341453552246
+        }
+      },
+      {
+        "name": "Broad over-white area reduced",
+        "pass": true,
+        "detail": {
+          "old": 11850,
+          "new": 78
+        }
+      },
+      {
+        "name": "No nonfinite or negative light output",
+        "pass": true,
+        "detail": {
+          "peak": 12.835341453552246,
+          "sum": 1197.173376379103,
+          "saturated": 78,
+          "negative": 0,
+          "bad": 0
+        }
+      },
+      {
+        "name": "Missing sprite cannot disable accepted pulses",
+        "pass": true
+      },
+      {
+        "name": "Optical horizontal ray brighter than neighbouring halo",
+        "pass": true,
+        "detail": {
+          "ray": 0.3172754943370819,
+          "halo": 0.0440116822719574
+        }
+      },
+      {
+        "name": "No bright quad edge",
+        "pass": true
+      },
+      {
+        "name": "Foreground character-depth strip occludes flash",
+        "pass": true
+      },
+      {
+        "name": "Light outside foreground strip remains visible",
+        "pass": true
+      },
+      {
+        "name": "Additive appearance never darkens background",
+        "pass": true,
+        "detail": 0
+      },
+      {
+        "name": "Zero accepted strength yields no light",
+        "pass": true
+      },
+      {
+        "name": "Resolved atlas sprite route renders",
+        "pass": true,
+        "detail": {
+          "peak": 1.8117649555206299,
+          "sum": 9301.51293794671,
+          "saturated": 4860,
+          "negative": 0,
+          "bad": 0
+        }
+      },
+      {
+        "name": "Sprite alpha is not incorrectly multiplied twice",
+        "pass": true,
+        "detail": 1.8117649555206299
+      },
+      {
+        "name": "Atlas rectangle does not bleed magenta neighbour",
+        "pass": true,
+        "detail": 0
+      },
+      {
+        "name": "Transparent atlas RGB is discarded",
+        "pass": true
+      },
+      {
+        "name": "Four atlas pages supported without changing instance count",
+        "pass": true,
+        "detail": {
+          "version": "c62.165",
+          "instances": 5,
+          "nativeSpriteInstances": 4,
+          "opticalFallbackInstances": 1,
+          "atlasPages": 4,
+          "spriteNames": [
+            "test/page0",
+            "test/page1",
+            "test/page2",
+            "test/page3",
+            "test/page4"
+          ],
+          "lastError": null,
+          "locked": "c62.164 centres, footprint, brightness, triggers, histories, Bloom selection and physical depth unchanged"
+        }
+      },
+      {
+        "name": "Fifth atlas uses visible fallback rather than dropping light",
+        "pass": true
+      },
+      {
+        "name": "Multi-page GPU draw is finite",
+        "pass": true
+      },
+      {
+        "name": "Late-loaded atlas recovers without losing pulses",
+        "pass": true
+      },
+      {
+        "name": "No shader compile errors",
+        "pass": true,
+        "detail": []
+      },
+      {
+        "name": "No WebGL error",
+        "pass": true
+      }
+    ],
+    "oldMetrics": {
+      "peak": 5.147511005401611,
+      "sum": 33422.84887707117,
+      "saturated": 11850,
+      "negative": 0,
+      "bad": 0
+    },
+    "newMetrics": {
+      "peak": 12.835341453552246,
+      "sum": 1197.173376379103,
+      "saturated": 78,
+      "negative": 0,
+      "bad": 0
+    },
+    "shaderErrors": [],
+    "renderer": "WebKit WebGL",
+    "note": "Isolated browser WebGL tests using the actual embedded Three.js and output material. Synthetic atlas/depth fixtures; not a full MV322 replay."
+  }
+}

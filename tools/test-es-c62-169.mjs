@@ -9,14 +9,14 @@ const code=String.raw`
 const tests=[];function check(name,ok,detail){tests.push({name,pass:!!ok,detail});if(!ok)throw Error(name+': '+JSON.stringify(detail));}
 const b64bytes=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 function lightEvent362_41(rt,entry){return{value:entry.setting};}
-const W=512,H=320,renderer=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});renderer.setSize(W,H);renderer.outputColorSpace=THREE.LinearSRGBColorSpace;document.body.appendChild(renderer.domElement);
+const W=256,H=160,renderer=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});renderer.setSize(W,H);renderer.outputColorSpace=THREE.LinearSRGBColorSpace;document.body.appendChild(renderer.domElement);
 const shaderErrors=[];renderer.debug.onShaderError=(gl,p,v,f)=>shaderErrors.push(gl.getProgramInfoLog(p)+' '+gl.getShaderInfoLog(v)+' '+gl.getShaderInfoLog(f));
 check('HDR framebuffer available',renderer.extensions.has('EXT_color_buffer_float'));
 const target=new THREE.WebGLRenderTarget(W,H,{type:THREE.FloatType,format:THREE.RGBAFormat,depthBuffer:false});target.texture.colorSpace=THREE.LinearSRGBColorSpace;
 const oldLive={runtime:{time:60,stageFx362_21:{report:{}}}},newLive={runtime:{time:60,stageFx362_21:{report:{}}}};
 const oldQ=oldFactory169(oldLive),newQ=callYourNameSourcePulseState164(newLive);
 const setting={LensFlareSpriteName:'EffectAtlas_mv322/EffectAtlas_mv322_Lens',LensFlareEffectScale:.7,LensFlareEffectAngle:0,LensFlareLightnessMultiplier:7.1495866775512695};
-function fill(q,n=1){const g=q.geometry;g.instanceCount=n;for(let i=0;i<n;i++){g.getAttribute('pulseCenter').setXY(i,.5,.48);g.getAttribute('pulseSize').setXY(i,190,170);g.getAttribute('pulseDepth').setX(i,8);g.getAttribute('pulseStrength').setX(i,2);g.getAttribute('pulseColor').setXYZ(i,.82,.96,1);}for(const a of Object.values(g.attributes))if(a.isInstancedBufferAttribute)a.needsUpdate=true;q.material.uniforms.viewport.value.set(W,H);q.material.uniforms.nearFar.value.set(.1,100);q.material.uniforms.depthEnabled.value=0;}
+function fill(q,n=1){const g=q.geometry;g.instanceCount=n;for(let i=0;i<n;i++){g.getAttribute('pulseCenter').setXY(i,.5,.48);g.getAttribute('pulseSize').setXY(i,95,85);g.getAttribute('pulseDepth').setX(i,8);g.getAttribute('pulseStrength').setX(i,2);g.getAttribute('pulseColor').setXYZ(i,.82,.96,1);}for(const a of Object.values(g.attributes))if(a.isInstancedBufferAttribute)a.needsUpdate=true;q.material.uniforms.viewport.value.set(W,H);q.material.uniforms.nearFar.value.set(.1,100);q.material.uniforms.depthEnabled.value=0;}
 function prepareOld(){fill(oldQ);oldQ.rows168=[{source:{id:1},entry:{setting:{...setting}}}];oldPrepare169(oldLive,oldQ);}
 function prepareNew(){fill(newQ);newQ.rows168=[{source:{id:1},entry:{setting:{...setting}}}];prepareCallYourNameNativePixels168(newLive,newQ);}
 function draw(q,clear=0){renderer.setRenderTarget(target);renderer.setClearColor(new THREE.Color(clear,clear,clear),1);renderer.autoClear=true;renderer.render(q.scene,q.camera);const p=new Float32Array(W*H*4);renderer.readRenderTargetPixels(target,0,0,W,H,p);return p;}
@@ -50,7 +50,7 @@ const server=http.createServer(async(req,res)=>{try{const file=path.resolve(root
 await new Promise(ok=>server.listen(0,'127.0.0.1',ok));let browser;
 try{
  browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
- const page=await browser.newPage({viewport:{width:512,height:320}});
+ const page=await browser.newPage({viewport:{width:256,height:160}});
  await page.goto('http://127.0.0.1:'+server.address().port+'/harness.html');
  await page.waitForFunction(()=>window.result169||window.failure169,null,{timeout:60000});
  const a=await page.evaluate(()=>({result:window.result169,error:window.failure169}));assert(!a.error,a.error);assert(a.result.tests.every(x=>x.pass));

@@ -1,0 +1,59 @@
+name: ES c62.168 native flare pixels
+on:
+  push:
+    branches: [artifact-es-c62-168]
+    paths:
+      - tools/build-native-pulse-168.mjs
+      - tools/test-native-pulse-168.mjs
+      - tools/native-pulse-168.js
+      - .github/workflows/build-native-pulse-168.yml
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: artifact-es-c62-168
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare precise harness module references
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('tools/build-native-pulse-168.mjs')
+          s=p.read_text()
+          s=s.replace("c.path?.includes('/fflate/')&&c.path.endsWith('.mjs')", "c.path==='/vendor/fflate.js'")
+          p.write_text(s)
+          p=Path('tools/test-native-pulse-168.mjs')
+          s=p.read_text()
+          for expression in ['y+.42','y+.10','y-.18']:
+              s=s.replace('-('+expression+')**2','-(('+expression+')**2)')
+          p.write_text(s)
+          PY
+          node --check tools/build-native-pulse-168.mjs
+          node --check tools/test-native-pulse-168.mjs
+          node --check tools/native-pulse-168.js
+      - run: npm install --no-save --no-package-lock acorn@8.15.0 playwright@1.55.0
+      - name: Build and verify source pixels plus controller locks
+        run: node tools/build-native-pulse-168.mjs
+      - run: npx playwright install --with-deps chromium
+      - name: Test original sprites, edges, source occlusion and additive rendering
+        run: node tools/test-native-pulse-168.mjs
+      - name: Save single HTML and internal evidence on artifact branch only
+        run: |
+          git config user.name 'ES artifact builder'
+          git config user.email 'es-artifact-builder@users.noreply.github.com'
+          git add artifacts/ES_c62.168_NativeFlarePixels.html artifacts/ES_c62.168_Checks.json artifacts/flare168/native-pixel-render-test.png tools/build-native-pulse-168.mjs tools/test-native-pulse-168.mjs
+          git commit -m 'Build verified c62.168 HTML using original MV322 flare pixels'
+          git push origin HEAD:artifact-es-c62-168
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ES_c62.168_NativeFlarePixels
+          path: artifacts/ES_c62.168_NativeFlarePixels.html
+          compression-level: 6
+          retention-days: 7
+          if-no-files-found: error
